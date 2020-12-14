@@ -7,46 +7,43 @@
     android:background="@android:color/holo_blue_light"
     tools:context=".SignUpActivity">
 
-    <ImageView
-        android:id="@+id/imageView2"
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/imageViewCircle"
         android:layout_width="200dp"
         android:layout_height="200dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="23dp"
         android:scaleType="centerCrop"
+        android:src="@drawable/profile"
+        android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/editTextSignupMail"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/profile" />
+        app:layout_constraintTop_toTopOf="parent" />
+
 
     <EditText
         android:id="@+id/editTextSignupMail"
-        android:layout_width="0dp"
+        android:layout_width="302dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginBottom="21dp"
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toTopOf="@+id/editTextSignupPassword"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+        app:layout_constraintTop_toBottomOf="@+id/imageViewCircle" />
 
     <EditText
         android:id="@+id/editTextSignupPassword"
-        android:layout_width="0dp"
+        android:layout_width="302dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="55dp"
-        android:layout_marginEnd="55dp"
-        android:layout_marginBottom="19dp"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSignupSign"
+        app:layout_constraintBottom_toTopOf="@+id/editTextUsername"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextSignupMail" />
 
@@ -57,19 +54,33 @@
         android:background="@color/purple_700"
         android:text="sıgn up"
         android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextSignupPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/progressBar" />
 
     <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="153dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/buttonSignupSign"
-        app:layout_constraintStart_toStartOf="@+id/buttonSignupSign"
-        app:layout_constraintTop_toBottomOf="@+id/buttonSignupSign" />
+        app:layout_constraintBottom_toTopOf="@+id/buttonSignupSign"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="302dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextSignupPassword" />
 </androidx.constraintlayout.widget.ConstraintLayout>
