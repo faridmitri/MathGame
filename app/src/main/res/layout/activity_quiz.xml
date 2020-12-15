@@ -50,7 +50,7 @@
             android:layout_weight="1"
             android:background="#00BCD4"
             android:fontFamily="sans-serif-black"
-            android:text="3"
+            android:text="2"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -290,4 +290,5 @@
 
 
     </GridLayout>
+
 </LinearLayout>
