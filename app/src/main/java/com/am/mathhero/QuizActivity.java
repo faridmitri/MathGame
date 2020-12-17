@@ -2,15 +2,16 @@ package com.am.mathhero;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
+import android.content.pm.ActivityInfo;
+
 import android.media.MediaPlayer;
-import android.net.Uri;
+
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.io.IOException;
@@ -23,19 +24,29 @@ public class QuizActivity extends AppCompatActivity {
 
 
     CountDownTimer countDownTimer;
-   // private static final long TOTAL_TIME = 20000;
+    private static long TOTAL_TIME ;
     Boolean timerContinue;
     //long timeLeft = TOTAL_TIME;
 
 
-    int number1;
-    int number2;
+
     int useranswer;
     int realanswer;
     int userscore = 0;
-    int userlife = 2;
+    int levelscore;
+    int userlife = 3;
     int level = 1;
+    int p = 0;
+    int progresslevel;
+    String op;
+    int r;
     Random random = new Random();
+    String operator1;
+    ProgressBar progressBar;
+    Operations operations;
+    String firstnum;
+    String secnum;
+
 
 
 
@@ -65,7 +76,13 @@ public class QuizActivity extends AppCompatActivity {
         question=findViewById(R.id.questid);
         final MediaPlayer correctsound = MediaPlayer.create(this, R.raw.level_up);
         final MediaPlayer wrongsound = MediaPlayer.create(this, R.raw.fail);
+        progressBar = findViewById(R.id.progressBar1);
+        progressBar.setMax(100);
+        progressBar.setProgress(0);
 
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
+        operations = new Operations();
 
         gameContinue();
 
@@ -81,17 +98,28 @@ public class QuizActivity extends AppCompatActivity {
                 // useranswer = Integer.valueOf(answer.getText().toString());
 
                 if (useranswer == realanswer) {
-                    userscore = userscore + 1;
+                    userscore = userscore + levelscore;
                     correctsound.start();
                     score.setText(String.format("%d", userscore));
+                    if (p == 100){p = 0;}
+                    p = p+progresslevel;
+                        progressBar.setProgress(p);
+
+
                 } else {
                     userlife = userlife - 1;
                     wrongsound.start();
                     chance.setText(String.format("%d", userlife));
                 }
-                time.setText("20");
+             //   time.setText("20");
                 countDownTimer.cancel();
-                nexttimer();
+                if (userlife == 0)
+                {
+                    Intent intent = new Intent(QuizActivity.this,GameOverActivity.class);
+                    intent.putExtra("scor",userscore);
+                    startActivity(intent);
+                    finish();
+                } else  nexttimer();
 
             }
 
@@ -203,7 +231,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void startTimer() {
-        countDownTimer=new CountDownTimer(20000, 1000) {
+        countDownTimer=new CountDownTimer(TOTAL_TIME, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 time.setText("" + millisUntilFinished / 1000);
@@ -221,7 +249,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void nexttimer() {
-        countDownTimer=new CountDownTimer(2000, 1000) {
+        countDownTimer=new CountDownTimer(1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (useranswer == realanswer){
@@ -243,51 +271,149 @@ public class QuizActivity extends AppCompatActivity {
         number = null;
         answer.setText(number);
 
+        if (userscore < 5){level = 1;TOTAL_TIME= 20000;levelscore =1;progresslevel=20;} else
+        if (userscore < 15){level = 2;TOTAL_TIME= 20000;levelscore =2;progresslevel=20;} else
+        if (userscore < 45){level = 3;TOTAL_TIME= 20000;levelscore =3;progresslevel=10;} else
+        if (userscore < 85){level = 4;TOTAL_TIME= 20000;levelscore =4;progresslevel=10;} else
+        if (userscore < 135){level = 5;TOTAL_TIME= 15000;levelscore =5;progresslevel=10;} else
+        if (userscore < 195){level = 6;TOTAL_TIME= 15000;levelscore =6;progresslevel=10;} else
+        if (userscore < 265){level = 7;TOTAL_TIME= 15000;levelscore =7;progresslevel=10;} else
+        if (userscore < 345){level = 8;TOTAL_TIME= 15000;levelscore =8;progresslevel=10;} else
+        if (userscore < 435){level = 9;TOTAL_TIME= 15000;levelscore =9;progresslevel=10;} else
+        {level = 10;TOTAL_TIME= 10000;levelscore =10;}
+
+
         startTimer();
+
         switch (level) {
             case 1:
-                number1 = random.nextInt(100);
-                number2 = random.nextInt(100);
-                realanswer = number1 + number2;
-                question.setText(number1 + "+" + number2);
+                operations.addition(100);
+                firstnum = String.valueOf(Operations.getFirstNumber());
+                secnum = String.valueOf(Operations.getSecondNumber());
+                operator1 = String.valueOf(Operations.getOperator());
+                question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
                 break;
 
-  /*          case "minus":
-                number1 = random.nextInt(100);
-                number2 = random.nextInt(100);
-                if (number1 > number2) {
-                    realanswer = number1 - number2;
-                    question.setText(number1 + "-" + number2);
-                } else {
-                    realanswer = number2 - number1;
-                    question.setText(number2 + "-" + number1);
-                }
-                break;
-            case "mult":
-                number1 = random.nextInt(20);
-                number2 = random.nextInt(20);
-                realanswer = number1 * number2;
-                question.setText(number1 + "*" + number2);
-                break;
-            case "div":
-                number1 = random.nextInt(400)+1;
-                number2 = random.nextInt(400)+1;
-                if (number1 > number2) {
-                    if (number1 % number2 == 0) {
-                        realanswer = number1 / number2;
-                        question.setText(number1 + "/" + number2);
-                    } else {gameContinue();}
 
-                } else {
-                    if (number2 % number1 == 0) {
-                        realanswer = number2 / number1;
-                        question.setText(number2 + "/" + number1);
-                    } else {gameContinue();}
+             case 2:
+                 r = random.nextInt(2);
+                 if(r==0){operations.addition(100);}
+                 else if(r==1){operations.subtraction(100);}
 
-                } */
+                 firstnum = String.valueOf(Operations.getFirstNumber());
+                 secnum = String.valueOf(Operations.getSecondNumber());
+                 operator1 = String.valueOf(Operations.getOperator());
+                 question.setText(firstnum + operator1 + secnum);
+                 realanswer = Operations.getResult();
+                 break;
+
+            case 3:
+                r = random.nextInt(3);
+                if(r==0){operations.addition(300);}
+                else if(r==1){operations.subtraction(300);}
+                else if(r==2){operations.multiplication(20);}
+
+                firstnum = String.valueOf(Operations.getFirstNumber());
+                secnum = String.valueOf(Operations.getSecondNumber());
+                operator1 = String.valueOf(Operations.getOperator());
+                question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
+                break;
+
+            case 4:
+                r = random.nextInt(3);
+                if(r==0){operations.addition(500);}
+                else if(r==1){operations.subtraction(500);}
+                else if(r==2){operations.multiplication(30);}
+
+                firstnum = String.valueOf(Operations.getFirstNumber());
+                secnum = String.valueOf(Operations.getSecondNumber());
+                operator1 = String.valueOf(Operations.getOperator());
+                question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
+                break;
+
+             case 5:
+                 r = random.nextInt(4);
+                 if(r==0){operations.addition(500);}
+                 else if(r==1){operations.subtraction(500);}
+                 else if(r==2){operations.multiplication(40);}
+                 else if(r==3){operations.division(20);}
+
+                  firstnum = String.valueOf(Operations.getFirstNumber());
+                 secnum = String.valueOf(Operations.getSecondNumber());
+                 operator1 = String.valueOf(Operations.getOperator());
+                 question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
+                break;
+
+            case 6:
+                r = random.nextInt(4);
+                if(r==0){operations.addition(500);}
+                else if(r==1){operations.subtraction(500);}
+                else if(r==2){operations.multiplication(40);}
+                else if(r==3){operations.division(20);}
+                firstnum = String.valueOf(Operations.getFirstNumber());
+                secnum = String.valueOf(Operations.getSecondNumber());
+                operator1 = String.valueOf(Operations.getOperator());
+                question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
+                break;
+
+            case 7:
+                r = random.nextInt(4);
+                if(r==0){operations.addition(500);}
+                else if(r==1){operations.subtraction(500);}
+                else if(r==2){operations.multiplication(50);}
+                else if(r==3){operations.division(20);}
+                firstnum = String.valueOf(Operations.getFirstNumber());
+                secnum = String.valueOf(Operations.getSecondNumber());
+                operator1 = String.valueOf(Operations.getOperator());
+                question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
+                break;
+
+            case 8:
+                r = random.nextInt(4);
+                if(r==0){operations.addition(800);}
+                else if(r==1){operations.subtraction(800);}
+                else if(r==2){operations.multiplication(50);}
+                else if(r==3){operations.division(50);}
+                firstnum = String.valueOf(Operations.getFirstNumber());
+                secnum = String.valueOf(Operations.getSecondNumber());
+                operator1 = String.valueOf(Operations.getOperator());
+                question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
+                break;
+
+            case 9:
+                r = random.nextInt(4);
+                if(r==0){operations.addition(1000);}
+                else if(r==1){operations.subtraction(1000);}
+                else if(r==2){operations.multiplication(600);}
+                else if(r==3){operations.division(100);}
+                firstnum = String.valueOf(Operations.getFirstNumber());
+                secnum = String.valueOf(Operations.getSecondNumber());
+                operator1 = String.valueOf(Operations.getOperator());
+                question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
+                break;
+
+            case 10:
+                r = random.nextInt(4);
+                if(r==0){operations.addition(1000);}
+                else if(r==1){operations.subtraction(1000);}
+                else if(r==2){operations.multiplication(1000);}
+                else if(r==3){operations.division(1000);}
+                firstnum = String.valueOf(Operations.getFirstNumber());
+                secnum = String.valueOf(Operations.getSecondNumber());
+                operator1 = String.valueOf(Operations.getOperator());
+                question.setText(firstnum + operator1 + secnum);
+                realanswer = Operations.getResult();
+                break;
 
         }
-
 
     }
 
@@ -299,4 +425,8 @@ public class QuizActivity extends AppCompatActivity {
         int n = random.nextInt(correct.length);
         return correct[n];
     }
+
+
+
+
 }

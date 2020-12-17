@@ -50,7 +50,7 @@
             android:layout_weight="1"
             android:background="#00BCD4"
             android:fontFamily="sans-serif-black"
-            android:text="2"
+            android:text="3"
             android:textColor="@color/white"
             android:textSize="18sp" />
 
@@ -93,6 +93,19 @@
             android:textColor="@color/white"
             android:textSize="18sp" />
 
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ProgressBar
+            android:id="@+id/progressBar1"
+            style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <TextView
@@ -150,7 +163,7 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#F2F2F2"
         android:columnCount="3"
         android:rowCount="4">
@@ -275,20 +288,27 @@
             android:text="0"
             android:textColor="@color/black"
             android:textSize="30sp" />
+
         <Button
             android:id="@+id/btnDel"
-            android:layout_height="80dp"
             android:layout_width="wrap_content"
-            android:text="DEL"
-            android:textSize="30sp"
-            android:textColor="@color/black"
-            android:background="@color/white"
+            android:layout_height="80dp"
             android:layout_row="3"
             android:layout_column="2"
-            android:layout_columnWeight="1"/>
-
+            android:layout_columnWeight="1"
+            android:background="@color/white"
+            android:text="DEL"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
 
     </GridLayout>
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F4EFEF"
+        app:srcCompat="@drawable/math" />
 
 </LinearLayout>

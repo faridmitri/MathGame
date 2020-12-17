@@ -4,16 +4,23 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blongho.country_data.Country;
+import com.blongho.country_data.World;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,9 +40,13 @@ public class SignUpActivity extends AppCompatActivity {
     EditText mail,password,username;
     Button signUp;
     ProgressBar progressBar;
-    ImageView imageView;
+    ImageView imageView,flagi;
     Uri imageUri;
     boolean imageControl = false;
+    TextView countrytxt;
+    Country country;
+
+    String countryfirebase;
 
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -48,6 +59,7 @@ public class SignUpActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+        World.init(getApplicationContext());
 
         mail = findViewById(R.id.editTextSignupMail);
         password = findViewById(R.id.editTextSignupPassword);
@@ -56,12 +68,26 @@ public class SignUpActivity extends AppCompatActivity {
         progressBar.setVisibility(View.INVISIBLE);
         imageView = (ImageView) findViewById(R.id.imageViewCircle);
         username = findViewById(R.id.editTextUsername);
+        flagi = findViewById(R.id.flag);
+        countrytxt = findViewById(R.id.country);
+
 
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
+//country
+
+        // use alpha2
+    //    String countryname = getApplicationContext().getResources().getConfiguration().locale.getDisplayCountry();
+        String   countryname = getIntent().getStringExtra("EXTRA_country");
+        final int flag = World.getFlagOf(countryname);
+        flagi.setImageResource(flag);
+        country = World.getCountryFrom(countryname);
+        countryfirebase =  countryname;
+        countrytxt.setText(countryfirebase);
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,6 +115,7 @@ public class SignUpActivity extends AppCompatActivity {
                             "Complete all fields.",
                             Toast.LENGTH_LONG).show();
                 }
+                signUp.setClickable(true);
             }
         });
     }
@@ -106,6 +133,8 @@ public class SignUpActivity extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
+                          //  reference.child("Users").child(auth.getUid()).child("country").setValue(countryfirebase);
+                            reference.child("country").child(auth.getUid()).setValue(countryfirebase);
 
                             if(imageControl) {
                                 UUID randomID = UUID.randomUUID();
