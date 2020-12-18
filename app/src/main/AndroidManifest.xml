@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.am.mathhero">
+
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +13,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathHero">
-        <activity android:name=".ProfileActivity"></activity>
+        <activity android:name=".LeaderBoardActivity"></activity>
+        <activity android:name=".ForgetActivity" />
+        <activity android:name=".ProfileActivity" />
         <activity android:name=".GameOverActivity" />
         <activity android:name=".QuizActivity" />
         <activity android:name=".SignUpActivity" />
@@ -25,6 +29,5 @@
             </intent-filter>
         </activity>
     </application>
-
 
 </manifest>

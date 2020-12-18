@@ -9,13 +9,14 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageViewCircle"
+        android:id="@+id/imageProfile"
         android:layout_width="200dp"
         android:layout_height="0dp"
+        android:layout_marginBottom="311dp"
         android:scaleType="centerCrop"
         android:src="@drawable/profile"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/flag"
+        app:layout_constraintBottom_toTopOf="@+id/progressBar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -40,48 +41,56 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="46dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonSignupSign"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flag" />
+        app:layout_constraintEnd_toEndOf="@+id/country"
+        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <EditText
         android:id="@+id/editTextUsername"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="54dp"
+        android:layout_marginTop="48dp"
         android:layout_marginEnd="54dp"
-        android:layout_marginBottom="32dp"
         android:ems="10"
         android:hint="Username"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toBottomOf="@+id/imageViewCircle"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <ImageView
         android:id="@+id/flag"
         android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="54dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginBottom="72dp"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        android:layout_height="100dp"
+        android:layout_marginStart="47dp"
+        android:layout_marginTop="92dp"
+        android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toStartOf="@+id/country"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewCircle"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsername"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="164dp"
+        android:layout_marginTop="139dp"
+        android:layout_marginEnd="181dp"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="20sp"
         android:typeface="normal"
-        app:layout_constraintBottom_toBottomOf="@+id/flag"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/flag"
-        app:layout_constraintTop_toTopOf="@+id/flag" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+
+    <ProgressBar
+        android:id="@+id/progressBar3"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="81dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

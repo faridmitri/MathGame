@@ -4,13 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.location.Location;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,7 +62,7 @@ public class SignUpActivity extends AppCompatActivity {
         signUp = findViewById(R.id.buttonSignupSign);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
-        imageView = (ImageView) findViewById(R.id.imageViewCircle);
+        imageView = (ImageView) findViewById(R.id.imageProfile);
         username = findViewById(R.id.editTextUsername);
         flagi = findViewById(R.id.flag);
         countrytxt = findViewById(R.id.country);
@@ -79,8 +75,7 @@ public class SignUpActivity extends AppCompatActivity {
         storageReference = firebaseStorage.getReference();
 //country
 
-        // use alpha2
-    //    String countryname = getApplicationContext().getResources().getConfiguration().locale.getDisplayCountry();
+
         String   countryname = getIntent().getStringExtra("EXTRA_country");
         final int flag = World.getFlagOf(countryname);
         flagi.setImageResource(flag);
@@ -133,8 +128,8 @@ public class SignUpActivity extends AppCompatActivity {
                         if(task.isSuccessful())
                         {
                             reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
-                          //  reference.child("Users").child(auth.getUid()).child("country").setValue(countryfirebase);
-                            reference.child("country").child(auth.getUid()).setValue(countryfirebase);
+                           reference.child("Users").child(auth.getUid()).child("country").child("countryName").setValue(countryfirebase);
+
 
                             if(imageControl) {
                                 UUID randomID = UUID.randomUUID();

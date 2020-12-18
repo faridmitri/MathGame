@@ -116,7 +116,7 @@ public class QuizActivity extends AppCompatActivity {
                 if (userlife == 0)
                 {
                     Intent intent = new Intent(QuizActivity.this,GameOverActivity.class);
-                    intent.putExtra("scor",userscore);
+                    intent.putExtra("scor","" +userscore);
                     startActivity(intent);
                     finish();
                 } else  nexttimer();

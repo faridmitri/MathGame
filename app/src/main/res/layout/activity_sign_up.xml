@@ -8,7 +8,7 @@
     tools:context=".SignUpActivity">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/imageViewCircle"
+        android:id="@+id/imageProfile"
         android:layout_width="200dp"
         android:layout_height="0dp"
         android:layout_marginTop="44dp"
@@ -35,7 +35,7 @@
         app:layout_constraintBottom_toTopOf="@+id/editTextSignupPassword"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageViewCircle" />
+        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <EditText
         android:id="@+id/editTextSignupPassword"
