@@ -85,7 +85,7 @@ public class GameOverActivity extends AppCompatActivity {
               //  reference.child("Users").child(auth.getUid()).child("country").child("countryScore").setValue(countryfirebase);
                 progressBar.setVisibility(View.INVISIBLE);
 
-                Intent i = new Intent(GameOverActivity.this, LeaderBoardActivity.class);
+                Intent i = new Intent(GameOverActivity.this, LeaderBoardA.class);
                 startActivity(i);
 
             }

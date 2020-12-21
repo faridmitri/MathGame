@@ -13,7 +13,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathHero">
-        <activity android:name=".LeaderBoardActivity"></activity>
+        <activity android:name=".LeaderBoardA"></activity>
         <activity android:name=".ForgetActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".GameOverActivity" />
@@ -28,6 +28,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".LeaderBoardActivity$LeaderBoardActivity" />
     </application>
 
 </manifest>

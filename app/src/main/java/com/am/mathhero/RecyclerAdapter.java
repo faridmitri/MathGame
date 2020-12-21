@@ -5,74 +5,83 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+
 
 import android.widget.TextView;
 
 
+
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.bumptech.glide.Glide;
+import com.blongho.country_data.World;
+import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.util.ArrayList;
+
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
-    public List<Model> mainRecycle_lists;
-    private LinearLayout linearLayout;
     Context context;
+    ArrayList<Model> models;
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView uName, uscore;
-        ImageView uprofile;
-
-
-        public MyViewHolder(View view) {
-            super(view);
-            uName = (TextView) view.findViewById(R.id.lname);
-            uscore  = view.findViewById(R.id.lscore);
-            uprofile= view.findViewById(R.id.lmage_profile);
-            linearLayout = view.findViewById(R.id.uLineare);
-
-        }
+    public RecyclerAdapter(Context c, ArrayList<Model> p) {
+        context = c;
+        models = p;
     }
-    public RecyclerAdapter(List<Model> mainRecycle_lists, Context context) {
-        this.mainRecycle_lists = mainRecycle_lists;
-        this.context = context;
-    }
+
+    @NonNull
     @Override
-    public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.leader, parent, false);
-
-        return new MyViewHolder(itemView);
+    public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.leader, parent, false));
     }
+
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
-        Model recycleList = mainRecycle_lists.get(position);
-        holder.uName.setText(recycleList.getName());
-        holder.uscore.setText(recycleList.getScore());
+    public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        holder.userName.setText(models.get(position).getuserName());
+        holder.score.setText(models.get(position).getScore());
+        //holder.country.setText(models.get(position).getCountry());
+        Picasso.get().load(models.get(position).getimage()).into(holder.image);
+        World.init(context.getApplicationContext());
+        final int flag = World.getFlagOf(models.get(position).getCountry());
+        holder.flagi.setImageResource(flag);
 
-        Glide.with(context).load(recycleList.getProfile()).into(holder.uprofile);
-
-
-       /* linearLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Main_Recycle_list recycleList = mainRecycle_lists.get(position);
-
-                String name = recycleList.getName();
-                Toast.makeText(context,"User Name : "+name,Toast.LENGTH_SHORT).show();
-            }
-
-        });*/
 
     }
+
+
+
     @Override
     public int getItemCount() {
-        return mainRecycle_lists.size();
+        return models.size();
     }
 
+    class MyViewHolder extends RecyclerView.ViewHolder
+    {
+        TextView userName,score;
+        ImageView image,flagi;
+
+        // Button btn;
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            userName = (TextView) itemView.findViewById(R.id.lname);
+            score = (TextView) itemView.findViewById(R.id.lscore);
+            flagi = (ImageView) itemView.findViewById(R.id.lflag);
+
+            //country = (TextView) itemView.findViewById(R.id.lcountry);
+            image = (ImageView) itemView.findViewById(R.id.lmage_profile);
+            //     btn = (Button) itemView.findViewById(R.id.checkDetails);
+        }
+       /* public void onClick(final int position)
+        {
+            btn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(context, position+" is clicked", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }  */
+    }
 }
