@@ -3,9 +3,10 @@ package com.am.mathhero;
 import java.io.Serializable;
 
 public class Model implements Serializable {
-    String userName, image, score,country;
+    String userName, image,country;
+    Long score;
 
-    public Model(String userName, String image, String score, String country) {
+    public Model(String userName, String image, Long score, String country) {
         this.userName = userName;
         this.image = image;
         this.score = score;
@@ -31,11 +32,11 @@ public class Model implements Serializable {
         this.image = image;
     }
 
-    public String getScore() {
+    public Long getScore() {
         return score;
     }
 
-    public void setScore(String score) {
+    public void setScore(Long score) {
         this.score = score;
     }
 

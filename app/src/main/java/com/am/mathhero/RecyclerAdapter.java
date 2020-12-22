@@ -41,7 +41,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.userName.setText(models.get(position).getuserName());
-        holder.score.setText(models.get(position).getScore());
+        holder.score.setText("" +models.get(position).getScore());
         //holder.country.setText(models.get(position).getCountry());
         Picasso.get().load(models.get(position).getimage()).into(holder.image);
         World.init(context.getApplicationContext());

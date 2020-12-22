@@ -42,10 +42,14 @@ public class LeaderBoardA extends AppCompatActivity {
         progressDialog.show();
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler);
-        recyclerView.setLayoutManager( new LinearLayoutManager(this));
+     //   recyclerView.setLayoutManager( new LinearLayoutManager(this));
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        layoutManager.setReverseLayout(true);
+        layoutManager.setStackFromEnd(true);
+        recyclerView.setLayoutManager(layoutManager);
 
 
-        reference = FirebaseDatabase.getInstance().getReference().child("Users").orderByChild("score").limitToLast(100);
+        reference = FirebaseDatabase.getInstance().getReference("Users").orderByChild("score");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
