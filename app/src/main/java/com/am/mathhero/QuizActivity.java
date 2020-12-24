@@ -18,7 +18,7 @@ import java.io.IOException;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
-    private Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnDel,ok;
+    private Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnDel,ok,stop;
     private TextView answer,time,chance,score,wisdom,question;
     private String number = null;
 
@@ -46,6 +46,7 @@ public class QuizActivity extends AppCompatActivity {
     Operations operations;
     String firstnum;
     String secnum;
+    long wisdoms;
 
 
 
@@ -67,6 +68,7 @@ public class QuizActivity extends AppCompatActivity {
         btn9 = findViewById(R.id.btn9);
         btnDel = findViewById(R.id.btnDel);
         ok = findViewById(R.id.okid);
+        stop = findViewById(R.id.pause);
         answer = findViewById(R.id.answerid);
         btnDel.setEnabled(false);
         score = findViewById(R.id.scorenum);
@@ -82,13 +84,28 @@ public class QuizActivity extends AppCompatActivity {
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        wisdoms = getIntent().getLongExtra("diamond",0);
+        if (wisdoms == 0) {
+            stop.setEnabled(false);
+        }
+        wisdom.setText(""+wisdoms);
+
         operations = new Operations();
 
         gameContinue();
 
+        stop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseTimer();
+            }
+        });
+
+
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String text = answer.getText().toString();
                 try {
                     useranswer = Integer.valueOf(text);
@@ -117,6 +134,7 @@ public class QuizActivity extends AppCompatActivity {
                 {
                     Intent intent = new Intent(QuizActivity.this,GameOverActivity.class);
                     intent.putExtra("scor","" +userscore);
+                    intent.putExtra("wisdom",wisdoms);
                     startActivity(intent);
                     finish();
                 } else  nexttimer();
@@ -426,6 +444,15 @@ public class QuizActivity extends AppCompatActivity {
         return correct[n];
     }
 
+    public void pauseTimer()
+    {
+        this.countDownTimer.cancel();
+        wisdoms -= 1;
+        wisdom.setText(""+wisdoms);
+        if (wisdoms == 0) {
+            stop.setEnabled(false);
+        }
+    }
 
 
 

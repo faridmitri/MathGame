@@ -148,7 +148,7 @@
             app:backgroundTint="#009688" />
 
         <Button
-            android:id="@+id/nextid"
+            android:id="@+id/pause"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -157,7 +157,8 @@
             android:layout_marginEnd="20dp"
             android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:text="Next"
+            android:background="@drawable/wisdom"
+            android:text="Stop Timer"
             app:backgroundTint="#009688" />
     </LinearLayout>
 

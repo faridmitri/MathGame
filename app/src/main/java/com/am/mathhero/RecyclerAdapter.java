@@ -25,11 +25,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     Context context;
     ArrayList<Model> models;
-
+    int i = 0;
 
     public RecyclerAdapter(Context c, ArrayList<Model> p) {
         context = c;
         models = p;
+
     }
 
     @NonNull
@@ -43,10 +44,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.userName.setText(models.get(position).getuserName());
         holder.score.setText("" +models.get(position).getScore());
         //holder.country.setText(models.get(position).getCountry());
-        Picasso.get().load(models.get(position).getimage()).into(holder.image);
+        if (models.get(position).getimage().equals("null"))
+        {
+            holder.image.setImageResource(R.drawable.profile);
+        }
+        else
+        {
+            Picasso.get().load(models.get(position).getimage()).into(holder.image);
+        }
+
         World.init(context.getApplicationContext());
-        final int flag = World.getFlagOf(models.get(position).getCountry());
+       final int flag = World.getFlagOf(models.get(position).getCountry());
         holder.flagi.setImageResource(flag);
+        i += 1;
+        holder.rank.setText("Rank: "+i);
 
 
     }
@@ -60,7 +71,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView userName,score;
+        TextView userName,score,rank;
         ImageView image,flagi;
 
         // Button btn;
@@ -70,7 +81,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
             score = (TextView) itemView.findViewById(R.id.lscore);
             flagi = (ImageView) itemView.findViewById(R.id.lflag);
 
-            //country = (TextView) itemView.findViewById(R.id.lcountry);
+            rank = (TextView) itemView.findViewById(R.id.rank);
             image = (ImageView) itemView.findViewById(R.id.lmage_profile);
             //     btn = (Button) itemView.findViewById(R.id.checkDetails);
         }

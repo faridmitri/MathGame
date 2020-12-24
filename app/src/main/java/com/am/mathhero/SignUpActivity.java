@@ -127,9 +127,12 @@ public class SignUpActivity extends AppCompatActivity {
 
                         if(task.isSuccessful())
                         {
-                            reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
-                           reference.child("Users").child(auth.getUid()).child("country").child("countryName").setValue(countryfirebase);
 
+                            reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
+                           reference.child("Users").child(auth.getUid()).child("country").setValue(countryfirebase);
+                            reference.child("country") .setValue(countryfirebase);
+                            reference.child("Users").child(auth.getUid()).child("diamons").setValue(1);
+                            reference.child("Users").child(auth.getUid()).child("score").setValue(0);
 
                             if(imageControl) {
                                 UUID randomID = UUID.randomUUID();

@@ -31,8 +31,9 @@ public class GameOverActivity extends AppCompatActivity {
     ProgressBar progressBar;
     FirebaseUser firebaseUser;
 
-    String getCountryScore;
+    long getCountryScore;
     String getScore;
+    String getCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class GameOverActivity extends AppCompatActivity {
         score = findViewById(R.id.textViewScore);
         score.setText("You score is: "+getIntent().getStringExtra("scor"));
         String fbscore = getIntent().getStringExtra("scor");
+        long diamond = getIntent().getLongExtra("wisdom",0);
 
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
@@ -62,24 +64,25 @@ public class GameOverActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
 
-  /*              getInfo();
+                getInfo();
 
                 int myNum = 0;
-                int setcountryScore = 0;
+                long setcountryScore = 0;
                 int setScore = 0;
                 try {
                     myNum = Integer.parseInt(fbscore);
                     setScore = Integer.parseInt(getScore);
-                    setcountryScore = Integer.parseInt(getCountryScore);
+                    setcountryScore =  getCountryScore;
                 } catch(NumberFormatException nfe) {
                     System.out.println("Could not parse " );
                 }
-                setcountryScore += myNum;
-                reference.child("Users").child(auth.getUid()).child("country").child("countryScore").setValue(setcountryScore);
+               setcountryScore += myNum;
+                reference.child("countryScore").setValue(setcountryScore);
+                reference.child("Users").child(auth.getUid()).child("diamons").setValue(diamond);
                 if (setScore < myNum) {
-                    reference.child("Users").child(auth.getUid()).child("score").setValue(fbscore);
+                    reference.child("Users").child(auth.getUid()).child("score").setValue(myNum);
                 }
-*/
+
 
 
               //  reference.child("Users").child(auth.getUid()).child("country").child("countryScore").setValue(countryfirebase);
@@ -98,12 +101,17 @@ public class GameOverActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                 getCountryScore = snapshot.child("country").child("countryScore").getValue().toString();
+              //   getCountryScore = snapshot.child("country").child("countryScore").getValue().toString();
                  getScore = snapshot.child("score").getValue().toString();
+                getCountryScore = (long) snapshot.child("countryScore").getValue();
+           //      getCountry =  snapshot.child("countryScore").getValue();
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
             }
         });
+
+
     }
 }

@@ -44,12 +44,12 @@
                         app:srcCompat="@drawable/knowledge" />
 
                     <TextView
-                        android:id="@+id/knowledge_coin"
+                        android:id="@+id/hightscore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-black"
-                        android:text="250"
+                        android:text="0"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:fontFamily="sans-serif-black"
-                        android:text="250"
+                        android:text="0"
                         android:textAlignment="textEnd"
                         android:textColor="@android:color/white"
                         android:textSize="18sp" />

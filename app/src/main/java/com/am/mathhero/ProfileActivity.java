@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.blongho.country_data.World;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
@@ -56,12 +58,14 @@ public class ProfileActivity extends AppCompatActivity {
     StorageReference storageReference;
 
     String image;
+    ImageView flagi;
+    String countryname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-
+        World.init(getApplicationContext());
         imageViewCircleProfile = findViewById(R.id.imageProfile);
         buttonUpdate = findViewById(R.id.buttonSignupSign);
         editTextUserNameProfile = findViewById(R.id.editTextUsername);
@@ -69,6 +73,7 @@ public class ProfileActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         progressBar3 = findViewById(R.id.progressBar3);
+        flagi = findViewById(R.id.flag);
 
 
         database = FirebaseDatabase.getInstance();
@@ -99,7 +104,7 @@ public class ProfileActivity extends AppCompatActivity {
     {    progressBar.setVisibility(View.VISIBLE);
         String userName = editTextUserNameProfile.getText().toString();
         reference.child("Users").child(firebaseUser.getUid()).child("userName").setValue(userName);
-        reference.child("Users").child(firebaseUser.getUid()).child("country").child("countryName").setValue(countryfirebase);
+        reference.child("Users").child(firebaseUser.getUid()).child("country").setValue(countryname);
 
         if(imageControl)
         {
@@ -154,6 +159,9 @@ public class ProfileActivity extends AppCompatActivity {
 
                 editTextUserNameProfile.setText(name);
                 countryfirebase.setText(getCountry);
+                final int flag = World.getFlagOf(getCountry);
+                flagi.setImageResource(flag);
+
 
                 if (image.equals("null"))
                 {
