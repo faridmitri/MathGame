@@ -13,15 +13,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathHero">
-        <activity android:name=".LeaderBoardA"></activity>
-        <activity android:name=".ForgetActivity" />
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".GameOverActivity" />
-        <activity android:name=".QuizActivity" />
-        <activity android:name=".SignUpActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity" />
-        <activity android:name=".SplashScreenActivity">
+        <activity android:name=".Acttivities.LeaderBoardA"></activity>
+        <activity android:name=".Acttivities.ForgetActivity" />
+        <activity android:name=".Acttivities.ProfileActivity" />
+        <activity android:name=".Acttivities.GameOverActivity" />
+        <activity android:name=".Acttivities.QuizActivity" />
+        <activity android:name=".Acttivities.SignUpActivity" />
+        <activity android:name=".Acttivities.LoginActivity" />
+        <activity android:name=".Acttivities.MainActivity" />
+        <activity android:name=".Acttivities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

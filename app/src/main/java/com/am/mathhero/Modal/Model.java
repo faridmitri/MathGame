@@ -1,4 +1,4 @@
-package com.am.mathhero;
+package com.am.mathhero.Modal;
 
 import java.io.Serializable;
 

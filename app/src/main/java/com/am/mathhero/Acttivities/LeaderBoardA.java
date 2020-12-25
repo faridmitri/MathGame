@@ -1,4 +1,4 @@
-package com.am.mathhero;
+package com.am.mathhero.Acttivities;
 
 
 
@@ -13,9 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.am.mathhero.Adapter.RecyclerAdapter;
+import com.am.mathhero.Modal.Model;
+import com.am.mathhero.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -46,7 +48,8 @@ public class LeaderBoardA extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
-        recyclerView.setLayoutManager(layoutManager);
+
+
 
 
         reference = FirebaseDatabase.getInstance().getReference("Users").orderByChild("score");
@@ -69,5 +72,10 @@ public class LeaderBoardA extends AppCompatActivity {
                 Toast.makeText(LeaderBoardA.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
             }
         });
+
+        int r = RecyclerAdapter.getr();
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.smoothScrollToPosition(r);
+
     }
 }

@@ -1,4 +1,4 @@
-package com.am.mathhero;
+package com.am.mathhero.Acttivities;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.am.mathhero.R;
 import com.blongho.country_data.Country;
 import com.blongho.country_data.World;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -130,7 +131,7 @@ public class SignUpActivity extends AppCompatActivity {
 
                             reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
                            reference.child("Users").child(auth.getUid()).child("country").setValue(countryfirebase);
-                            reference.child("country") .setValue(countryfirebase);
+                            reference.child("Users").child(auth.getUid()).child("countryScore").setValue(0);
                             reference.child("Users").child(auth.getUid()).child("diamons").setValue(1);
                             reference.child("Users").child(auth.getUid()).child("score").setValue(0);
 

@@ -1,4 +1,4 @@
-package com.am.mathhero;
+package com.am.mathhero.Acttivities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,7 +14,8 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import java.io.IOException;
+import com.am.mathhero.R;
+
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
@@ -105,7 +106,7 @@ public class QuizActivity extends AppCompatActivity {
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                ok.setEnabled(false);
                 String text = answer.getText().toString();
                 try {
                     useranswer = Integer.valueOf(text);

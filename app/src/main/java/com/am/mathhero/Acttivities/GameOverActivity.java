@@ -1,4 +1,4 @@
-package com.am.mathhero;
+package com.am.mathhero.Acttivities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.am.mathhero.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -18,8 +19,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.squareup.picasso.Picasso;
 
 public class GameOverActivity extends AppCompatActivity {
 
@@ -34,6 +33,9 @@ public class GameOverActivity extends AppCompatActivity {
     long getCountryScore;
     String getScore;
     String getCountry;
+    int myNum;
+    long setcountryScore;
+   long setScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,29 +66,29 @@ public class GameOverActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.VISIBLE);
 
 
-                getInfo();
+          reference.child("Users").child(firebaseUser.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+              @Override
+              public void onDataChange(@NonNull DataSnapshot snapshot) {
+                  setScore = (long) snapshot.child("score").getValue();
+                  setcountryScore = (long) snapshot.child("countryScore").getValue();
+                  myNum = Integer.parseInt(fbscore);
 
-                int myNum = 0;
-                long setcountryScore = 0;
-                int setScore = 0;
-                try {
-                    myNum = Integer.parseInt(fbscore);
-                    setScore = Integer.parseInt(getScore);
-                    setcountryScore =  getCountryScore;
-                } catch(NumberFormatException nfe) {
-                    System.out.println("Could not parse " );
-                }
-               setcountryScore += myNum;
-                reference.child("countryScore").setValue(setcountryScore);
-                reference.child("Users").child(auth.getUid()).child("diamons").setValue(diamond);
-                if (setScore < myNum) {
-                    reference.child("Users").child(auth.getUid()).child("score").setValue(myNum);
-                }
+                  setcountryScore += myNum;
+
+                  reference.child("Users").child(auth.getUid()).child("countryScore").setValue(setcountryScore);
+                  if (setScore < myNum) {
+                      reference.child("Users").child(auth.getUid()).child("score").setValue(myNum);
+                  }
+              }
+
+              @Override
+              public void onCancelled(@NonNull DatabaseError error) {
+
+              }
+          });
 
 
 
-              //  reference.child("Users").child(auth.getUid()).child("country").child("countryScore").setValue(countryfirebase);
-                progressBar.setVisibility(View.INVISIBLE);
 
                 Intent i = new Intent(GameOverActivity.this, LeaderBoardA.class);
                 startActivity(i);
@@ -96,22 +98,6 @@ public class GameOverActivity extends AppCompatActivity {
 
     }
 
-    public void getInfo() {
-        reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-              //   getCountryScore = snapshot.child("country").child("countryScore").getValue().toString();
-                 getScore = snapshot.child("score").getValue().toString();
-                getCountryScore = (long) snapshot.child("countryScore").getValue();
-           //      getCountry =  snapshot.child("countryScore").getValue();
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
-        });
 
 
-    }
 }

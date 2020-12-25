@@ -1,4 +1,4 @@
-package com.am.mathhero;
+package com.am.mathhero.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,7 +15,16 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.am.mathhero.Modal.Model;
+import com.am.mathhero.R;
 import com.blongho.country_data.World;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -23,9 +32,17 @@ import java.util.ArrayList;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
 
+
+    FirebaseDatabase database;
+    DatabaseReference reference;
+    FirebaseAuth auth;
+    FirebaseUser firebaseUser;
+
+
     Context context;
     ArrayList<Model> models;
-    int i = 0;
+     int i = 0;
+    public static int r;
 
     public RecyclerAdapter(Context c, ArrayList<Model> p) {
         context = c;
@@ -60,7 +77,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
         holder.rank.setText("Rank: "+i);
 
 
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference();
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
+
+        reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                String name = snapshot.child("userName").getValue().toString();
+                if (name == models.get(position).getuserName()) {
+                    r = i;
+                    getr();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
     }
+
+
+
+
 
 
 
@@ -94,5 +138,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
                 }
             });
         }  */
+    }
+    public static int getr(){
+
+        return r;
     }
 }
