@@ -1,4 +1,4 @@
-package com.am.mathhero.Acttivities;
+package com.am.mathhero.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 

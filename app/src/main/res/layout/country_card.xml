@@ -24,27 +24,28 @@
         app:layout_constraintTop_toTopOf="parent">
 
 
-        <TextView
-            android:id="@+id/rank"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/design_default_color_primary"
-            android:text="TextView"
-            android:textColor="@color/darkerRed"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/design_default_color_primary">
 
+            <ImageView
+                android:id="@+id/cflag"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="7dp"
+                android:layout_marginEnd="222dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/rank"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/profile" />
+
             <TextView
                 android:id="@+id/cname"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="2dp"
+                android:layout_marginStart="23dp"
                 android:fontFamily="serif"
                 android:text="Name"
                 android:textAllCaps="true"
@@ -54,23 +55,13 @@
                 app:layout_constraintStart_toEndOf="@+id/cflag"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/cflag"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="2dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/profile" />
-
             <TextView
                 android:id="@+id/cscore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/cname"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginStart="23dp"
+                android:layout_marginTop="10dp"
                 android:text="score"
                 android:textAllCaps="true"
                 android:textColor="@color/darkerRed"
@@ -79,18 +70,21 @@
                 app:layout_constraintStart_toEndOf="@+id/cflag"
                 app:layout_constraintTop_toBottomOf="@+id/cname" />
 
-            <ImageView
-                android:id="@+id/lflag"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="84dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="3dp"
+            <TextView
+                android:id="@+id/rank"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="1"
+                android:textColor="#E91E63"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                android:typeface="normal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cscore"
+                app:layout_constraintStart_toEndOf="@+id/cflag"
                 app:layout_constraintTop_toTopOf="parent" />
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

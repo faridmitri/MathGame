@@ -30,7 +30,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 
-public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyViewHolder> {
+public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapterCountry.MyViewHolder> {
 
 
     FirebaseDatabase database;
@@ -41,10 +41,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     Context context;
     ArrayList<Model> models;
-     int i = 0;
+    int i = 0;
     public static int r;
 
-    public RecyclerAdapter(Context c, ArrayList<Model> p) {
+    public RecyclerAdapterCountry(Context c, ArrayList<Model> p) {
         context = c;
         models = p;
 
@@ -53,28 +53,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.leader, parent, false));
+        return new MyViewHolder(LayoutInflater.from(context).inflate(R.layout.country_card, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        holder.userName.setText(models.get(position).getuserName());
-        holder.score.setText("" +models.get(position).getScore());
-        //holder.country.setText(models.get(position).getCountry());
-        if (models.get(position).getimage().equals("null"))
-        {
-            holder.image.setImageResource(R.drawable.profile);
-        }
-        else
-        {
-            Picasso.get().load(models.get(position).getimage()).into(holder.image);
-        }
 
+        holder.score.setText("" +models.get(position).getCountryScore());
+
+        holder.country.setText(models.get(position).getCountry());
         World.init(context.getApplicationContext());
-       final int flag = World.getFlagOf(models.get(position).getCountry());
+        final int flag = World.getFlagOf(models.get(position).getCountry());
         holder.flagi.setImageResource(flag);
         i += 1;
-        holder.rank.setText("Rank: "+i);
+        holder.pos.setText(""+i);
 
 
         database = FirebaseDatabase.getInstance();
@@ -104,10 +96,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
 
 
-
-
-
-
     @Override
     public int getItemCount() {
         return models.size();
@@ -115,29 +103,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyView
 
     class MyViewHolder extends RecyclerView.ViewHolder
     {
-        TextView userName,score,rank;
-        ImageView image,flagi;
+        TextView score,pos,country;
+        ImageView flagi;
 
         // Button btn;
         public MyViewHolder(View itemView) {
             super(itemView);
-            userName = (TextView) itemView.findViewById(R.id.lname);
-            score = (TextView) itemView.findViewById(R.id.lscore);
-            flagi = (ImageView) itemView.findViewById(R.id.lflag);
 
-            rank = (TextView) itemView.findViewById(R.id.rank);
-            image = (ImageView) itemView.findViewById(R.id.lmage_profile);
-            //     btn = (Button) itemView.findViewById(R.id.checkDetails);
+            country = (TextView) itemView.findViewById(R.id.cname);
+            score = (TextView) itemView.findViewById(R.id.cscore);
+            flagi = (ImageView) itemView.findViewById(R.id.cflag);
+
+            pos = (TextView) itemView.findViewById(R.id.rank);
+
         }
-       /* public void onClick(final int position)
-        {
-            btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Toast.makeText(context, position+" is clicked", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }  */
+
     }
     public static int getr(){
 

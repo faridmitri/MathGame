@@ -1,4 +1,4 @@
-package com.am.mathhero.Acttivities;
+package com.am.mathhero.Activities;
 
 import java.util.ArrayList;
 import java.util.Random;
