@@ -30,6 +30,7 @@ public class QuizActivity extends AppCompatActivity {
     CountDownTimer countDownTimer;
     private static long TOTAL_TIME ;
     Boolean timerContinue;
+    Boolean chanceflag;
     //long timeLeft = TOTAL_TIME;
 
 
@@ -484,6 +485,8 @@ public void retreive() {
           userlife = 1;
           chance.setText(String.format("%d", userlife));
 
+         chanceflag = true;
+
       }
 
 }
@@ -495,6 +498,7 @@ public void gameover(){
         Intent intent = new Intent(QuizActivity.this,GameOverActivity.class);
         intent.putExtra("scor","" +userscore);
         intent.putExtra("wisdom",wisdoms);
+        intent.putExtra("chanceflag",chanceflag);
         startActivity(intent);
         finish();
     } else  nexttimer();
