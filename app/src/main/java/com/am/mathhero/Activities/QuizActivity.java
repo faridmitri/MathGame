@@ -3,6 +3,7 @@ package com.am.mathhero.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 
 import android.media.MediaPlayer;
@@ -19,9 +20,9 @@ import com.am.mathhero.R;
 import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
-    private Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnDel,ok,stop;
-    private TextView answer,time,chance,score,wisdom,question;
-    private String number = null;
+    Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnDel,ok,stop;
+    TextView answer,time,chance,score,wisdom,question;
+     String number = null;
 
 
     CountDownTimer countDownTimer;
@@ -33,10 +34,10 @@ public class QuizActivity extends AppCompatActivity {
 
     int useranswer;
     int realanswer;
-    int userscore = 0;
+    int userscore;
     int levelscore;
     int userlife = 3;
-    int level = 1;
+    int level =1;
     int p = 0;
     int progresslevel;
     String op;
@@ -48,8 +49,7 @@ public class QuizActivity extends AppCompatActivity {
     String firstnum;
     String secnum;
     long wisdoms;
-
-
+   MediaPlayer timeup;
 
 
     @Override
@@ -79,17 +79,21 @@ public class QuizActivity extends AppCompatActivity {
         question=findViewById(R.id.questid);
         final MediaPlayer correctsound = MediaPlayer.create(this, R.raw.level_up);
         final MediaPlayer wrongsound = MediaPlayer.create(this, R.raw.fail);
+        timeup = MediaPlayer.create(this, R.raw.timesup);
         progressBar = findViewById(R.id.progressBar1);
         progressBar.setMax(100);
         progressBar.setProgress(0);
 
         this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+
+
         wisdoms = getIntent().getLongExtra("diamond",0);
         if (wisdoms == 0) {
             stop.setEnabled(false);
         }
         wisdom.setText(""+wisdoms);
+        retreive();
 
         operations = new Operations();
 
@@ -131,14 +135,7 @@ public class QuizActivity extends AppCompatActivity {
                 }
              //   time.setText("20");
                 countDownTimer.cancel();
-                if (userlife == 0)
-                {
-                    Intent intent = new Intent(QuizActivity.this,GameOverActivity.class);
-                    intent.putExtra("scor","" +userscore);
-                    intent.putExtra("wisdom",wisdoms);
-                    startActivity(intent);
-                    finish();
-                } else  nexttimer();
+                gameover();
 
             }
 
@@ -259,8 +256,9 @@ public class QuizActivity extends AppCompatActivity {
 
             public void onFinish() {
                 userlife = userlife - 1;
+                timeup.start();
                 question.setText("Time's up");
-                gameContinue();
+                gameover();
                 chance.setText(String.format("%d", userlife));
             }
 
@@ -455,6 +453,43 @@ public class QuizActivity extends AppCompatActivity {
         }
     }
 
+public void savedata(){
+    SharedPreferences.Editor editor = getSharedPreferences("saved", MODE_PRIVATE).edit();
+    editor.putInt("score", userscore);
+    editor.putLong("wisdom", wisdoms);
+    editor.putInt("level",level);
+    editor.apply();
+}
 
+public void retreive() {
+
+    boolean flag = getIntent().getBooleanExtra("flag",false);
+      if (flag) {
+
+          SharedPreferences prefs = getSharedPreferences("saved", MODE_PRIVATE);
+          userscore = prefs.getInt("score", 0);
+         score.setText(""+userscore);
+          wisdoms = prefs.getLong("wisdom", 0); //0 is the default value.
+          wisdom.setText("" + wisdoms);
+          level = prefs.getInt("level", 0);
+
+          userlife = 1;
+          chance.setText(String.format("%d", userlife));
+
+      }
+
+}
+
+public void gameover(){
+    if (userlife == 0)
+    {
+        savedata();
+        Intent intent = new Intent(QuizActivity.this,GameOverActivity.class);
+        intent.putExtra("scor","" +userscore);
+        intent.putExtra("wisdom",wisdoms);
+        startActivity(intent);
+        finish();
+    } else  nexttimer();
+}
 
 }

@@ -155,6 +155,7 @@ public class SignUpActivity extends AppCompatActivity {
                                                     @Override
                                                     public void onFailure(@NonNull Exception e) {
                                                         Toast.makeText(SignUpActivity.this, "Write to database is not successful.", Toast.LENGTH_SHORT).show();
+                                                        reference.child("Users").child(auth.getUid()).child("image").setValue("null");
                                                     }
                                                 });
                                             }

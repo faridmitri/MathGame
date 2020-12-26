@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 public class GameOverActivity extends AppCompatActivity {
 
     TextView score;
-    Button chance,leader;
+    Button chance,leader,buttonad;
     FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference reference;
@@ -46,6 +46,7 @@ public class GameOverActivity extends AppCompatActivity {
         gameover.start();
 
         leader = findViewById(R.id.leaderBoard);
+        buttonad    = findViewById(R.id.buttonad);
         progressBar = findViewById(R.id.progressBar2);
         progressBar.setVisibility(View.INVISIBLE);
         score = findViewById(R.id.textViewScore);
@@ -59,6 +60,18 @@ public class GameOverActivity extends AppCompatActivity {
         reference = database.getReference();
         chance = findViewById(R.id.buttonad);
         leader = findViewById(R.id.leaderBoard);
+
+
+        buttonad.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(GameOverActivity.this,QuizActivity.class);
+                boolean flag = true;
+                intent.putExtra("flag",flag );
+                startActivity(intent);
+                finish();
+            }
+        });
 
         leader.setOnClickListener(new View.OnClickListener() {
             @Override

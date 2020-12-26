@@ -58,6 +58,8 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+
+
         holder.userName.setText(models.get(position).getuserName());
         holder.score.setText("" +models.get(position).getScore());
         //holder.country.setText(models.get(position).getCountry());
@@ -85,6 +87,10 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
         reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+
+
 
                 String name = snapshot.child("userName").getValue().toString();
                 if (name == models.get(position).getuserName()) {
