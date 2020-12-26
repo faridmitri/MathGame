@@ -16,6 +16,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.am.mathhero.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.Random;
 
@@ -91,9 +93,13 @@ public class QuizActivity extends AppCompatActivity {
         wisdoms = getIntent().getLongExtra("diamond",0);
         if (wisdoms == 0) {
             stop.setEnabled(false);
-        }
+        } else {stop.setEnabled(true);}
+
         wisdom.setText(""+wisdoms);
         retreive();
+        if (wisdoms == 0) {
+            stop.setEnabled(false);
+        } else {stop.setEnabled(true);}
 
         operations = new Operations();
 
@@ -103,6 +109,8 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 pauseTimer();
+                savefirebase();
+
             }
         });
 
@@ -492,4 +500,10 @@ public void gameover(){
     } else  nexttimer();
 }
 
+
+public void savefirebase() {
+
+    FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
+            .child("diamons").setValue(wisdoms);
+}
 }
