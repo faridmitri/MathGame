@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.media.MediaPlayer;
 import android.view.View;
@@ -29,10 +30,9 @@ public class GameOverActivity extends AppCompatActivity {
     DatabaseReference reference;
     ProgressBar progressBar;
     FirebaseUser firebaseUser;
+    boolean flag = false;
 
-    long getCountryScore;
-    String getScore;
-    String getCountry;
+
     int myNum;
     long setcountryScore;
    long setScore;
@@ -61,12 +61,13 @@ public class GameOverActivity extends AppCompatActivity {
         chance = findViewById(R.id.buttonad);
         leader = findViewById(R.id.leaderBoard);
 
-
+        retreive();
         buttonad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(GameOverActivity.this,QuizActivity.class);
-                boolean flag = true;
+                 flag = true;
+                 savedata();
                 intent.putExtra("flag",flag );
                 startActivity(intent);
                 finish();
@@ -111,6 +112,18 @@ public class GameOverActivity extends AppCompatActivity {
 
     }
 
+    public void savedata(){
+        SharedPreferences.Editor editor = getSharedPreferences("saved", MODE_PRIVATE).edit();
+        editor.putBoolean("ads", flag);
+        editor.apply();
+    }
 
+    public void retreive() {
+        SharedPreferences prefs = getSharedPreferences("saved", MODE_PRIVATE);
+        boolean flag1 = prefs.getBoolean("ads", false);
+        if (flag1) {
+            buttonad.setEnabled(false);
+        }
+    }
 
 }
