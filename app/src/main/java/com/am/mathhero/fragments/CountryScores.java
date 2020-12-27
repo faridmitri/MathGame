@@ -13,17 +13,22 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.am.mathhero.Adapter.RecyclerAdapterCountry;
+import com.am.mathhero.Activities.MainActivity;
 import com.am.mathhero.Adapter.RecyclerAdapterUser;
 import com.am.mathhero.Modal.Model;
 import com.am.mathhero.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 
 public class CountryScores extends Fragment {
@@ -37,14 +42,27 @@ public class CountryScores extends Fragment {
     Query reference;
     RecyclerView recyclerView;
     ArrayList<Model> list;
-    RecyclerAdapterCountry adapter;
+    RecyclerAdapterUser adapter;
     ProgressBar progressBarLeader;
+    DatabaseReference ref;
+    FirebaseUser firebaseUser;
+    FirebaseAuth auth;
+    FirebaseDatabase database;
+    String c;
+
+
+
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_country_scores,container,false);
+
+        database = FirebaseDatabase.getInstance();
+        ref = database.getReference();
+        auth = FirebaseAuth.getInstance();
+        firebaseUser = auth.getCurrentUser();
 
 
         progressBarLeader = view.findViewById(R.id.progressBarLeader);
@@ -54,10 +72,9 @@ public class CountryScores extends Fragment {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
+       c = MainActivity.countries();
 
-
-
-        reference = FirebaseDatabase.getInstance().getReference("Users").orderByChild("countryScore") ;
+        reference = FirebaseDatabase.getInstance().getReference("Users").orderByChild("country").equalTo(c);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -66,8 +83,9 @@ public class CountryScores extends Fragment {
                 {
                     Model p = dataSnapshot1.getValue(Model.class);
                     list.add(p);
+                    Collections.sort(list,Model.byscore);
                 }
-                adapter = new RecyclerAdapterCountry(getActivity(),list);
+                adapter = new RecyclerAdapterUser(getActivity(),list);
                 recyclerView.setAdapter(adapter);
                 int r = RecyclerAdapterUser.getr();
                 recyclerView.setLayoutManager(layoutManager);
@@ -85,4 +103,6 @@ public class CountryScores extends Fragment {
 
         return view;
     }
+
+
 }

@@ -123,19 +123,6 @@
                 android:textSize="30sp" />
 
             <Button
-                android:id="@+id/video_add"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                android:background="@color/darkerYellow"
-                android:fontFamily="sans-serif-black"
-                android:text="Earn coins"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="24sp" />
-
-            <Button
                 android:id="@+id/buy_wisdom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

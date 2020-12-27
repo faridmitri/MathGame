@@ -1,6 +1,7 @@
 package com.am.mathhero.Modal;
 
 import java.io.Serializable;
+import java.util.Comparator;
 
 public class Model implements Serializable {
     String userName, image,country;
@@ -54,4 +55,11 @@ public class Model implements Serializable {
     public void setCountry(String country) {
         this.country = country;
     }
+
+    public static final Comparator<Model> byscore = new Comparator<Model>() {
+        @Override
+        public int compare(Model o1, Model o2) {
+            return o1.getScore().compareTo(o2.getScore());
+        }
+    };
 }

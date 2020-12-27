@@ -3,9 +3,7 @@ package com.am.mathhero.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -31,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser firebaseUser;
     long diamons;
+    static String userCountry;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 wisdom.setText(""+diamons);
                 String hightscore = snapshot.child("score").getValue().toString();
                 hightScore.setText(hightscore);
+                userCountry = snapshot.child("country").getValue().toString();
 
             }
 
@@ -115,5 +115,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    public static String countries(){
+
+        String c = userCountry;
+        return c;
+    }
 
 }

@@ -39,10 +39,10 @@ public class LeaderBoardA extends AppCompatActivity {
                 switch (position)
                 {
                     case 0:
-                        tab.setText("Leader Board");
+                        tab.setText("World Wide");
                         break;
                    case 1:
-                        tab.setText("Countries Heros");
+                        tab.setText("By Country");
                         break;
 
                 }

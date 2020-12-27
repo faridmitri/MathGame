@@ -89,9 +89,6 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
 
-
-
-
                 String name = snapshot.child("userName").getValue().toString();
                 if (name == models.get(position).getuserName()) {
                     r = i;
