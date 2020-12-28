@@ -2,10 +2,21 @@ package com.am.mathhero.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,6 +43,8 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 
+import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -45,6 +58,21 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView countryfirebase;
     ProgressBar progressBar,progressBar3;
 
+    LocationManager locationManager;
+    LocationListener locationListener;
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            }
+        }
+    }
+
 
     FirebaseDatabase database;
     DatabaseReference reference;
@@ -57,9 +85,10 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
 
-    String image;
+    String image,address;
     ImageView flagi;
     String countryname;
+    Button gpsbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +102,7 @@ public class ProfileActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         progressBar3 = findViewById(R.id.progressBar3);
+        gpsbtn = findViewById(R.id.gpsbtn);
         flagi = findViewById(R.id.flag);
 
 
@@ -84,6 +114,13 @@ public class ProfileActivity extends AppCompatActivity {
         storageReference = firebaseStorage.getReference();
 
         getUserInfo();
+
+        gpsbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkgps();
+            }
+        });
 
         imageViewCircleProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,7 +141,7 @@ public class ProfileActivity extends AppCompatActivity {
     {    progressBar.setVisibility(View.VISIBLE);
         String userName = editTextUserNameProfile.getText().toString();
         reference.child("Users").child(firebaseUser.getUid()).child("userName").setValue(userName);
-        reference.child("Users").child(firebaseUser.getUid()).child("country").setValue(countryname);
+        reference.child("Users").child(firebaseUser.getUid()).child("country").setValue(address);
 
         if(imageControl)
         {
@@ -203,5 +240,57 @@ public class ProfileActivity extends AppCompatActivity {
         {
             imageControl = false;
         }
+    }
+
+    public void checkgps(){
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                Log.i("Location", location.toString());
+
+
+                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                try {
+                    List<Address> listAddresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
+                    if (listAddresses != null && listAddresses.size() > 0) {
+
+                        address = listAddresses.get(0).getCountryName();
+                        countryfirebase.setText(address);
+                        final int flag = World.getFlagOf(address);
+                        flagi.setImageResource(flag);
+
+                    }
+                } catch (Exception e) {
+                    Toast toast=Toast.makeText(getApplicationContext(),"GPS not found",Toast.LENGTH_SHORT);
+                }
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
+        } else {
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        }
+
+
+
+
     }
 }

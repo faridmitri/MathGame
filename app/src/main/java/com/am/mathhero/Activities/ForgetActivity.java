@@ -24,6 +24,7 @@ public class ForgetActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         editTextForget = findViewById(R.id.editTextForget);
         buttonForget = findViewById(R.id.buttonForget);

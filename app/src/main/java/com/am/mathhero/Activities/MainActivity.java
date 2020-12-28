@@ -3,6 +3,7 @@ package com.am.mathhero.Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.am.mathhero.R;
@@ -22,7 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-    Button start,results;
+    Button start,results,buy_wisdom;
     TextView wisdom,hightScore;
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -30,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseUser firebaseUser;
     long diamons;
     static String userCountry;
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,15 +40,28 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
+
         start = findViewById(R.id.start);
         wisdom = findViewById(R.id.wisdom_coin);
+        buy_wisdom = findViewById(R.id.buy_wisdom);
         hightScore = findViewById(R.id.hightscore);
         results = findViewById(R.id.results);
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
+        progressBar = findViewById(R.id.progressBar5);
         getUserInfo();
+
+        buy_wisdom.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this,DiamondsActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         start.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void getUserInfo() {
+
+
         reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -105,6 +123,7 @@ public class MainActivity extends AppCompatActivity {
                 String hightscore = snapshot.child("score").getValue().toString();
                 hightScore.setText(hightscore);
                 userCountry = snapshot.child("country").getValue().toString();
+                progressBar.setVisibility(View.INVISIBLE);
 
             }
 
@@ -113,6 +132,8 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+
     }
 
     public static String countries(){

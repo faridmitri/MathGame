@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" />
 
     <application
         android:allowBackup="true"
@@ -13,28 +14,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathHero">
-        <activity android:name=".Activities.LeaderBoardA"></activity>
-        <activity android:name=".Activities.ForgetActivity" />
-        <activity android:name=".Activities.ProfileActivity" />
+        <activity android:name=".Activities.DiamondsActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/Theme.MyMathHero"
+           />
+        <activity android:name=".Activities.LeaderBoardA"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/Theme.MyMathHero"/>
+        <activity android:name=".Activities.ForgetActivity"
+            android:parentActivityName=".Activities.LoginActivity"
+            android:theme="@style/Theme.MyMathHero"/>
+        <activity android:name=".Activities.ProfileActivity"
+            android:theme="@style/Theme.MyMathHero"
+            android:parentActivityName=".Activities.MainActivity"/>
         <activity android:name=".Activities.GameOverActivity" />
         <activity android:name=".Activities.QuizActivity" />
-        <activity android:name=".Activities.SignUpActivity" />
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.MainActivity" android:theme="@style/Theme.MyMathHero" />
+        <activity android:name=".Activities.SignUpActivity"
+            android:parentActivityName=".Activities.LoginActivity"
+            android:theme="@style/Theme.MyMathHero"/>
+        <activity android:name=".Activities.LoginActivity"
+            android:theme="@style/Theme.MyMathHero"/>
+        <activity
+            android:name=".Activities.MainActivity"
+            android:theme="@style/Theme.MyMathHero" />
         <activity android:name=".Activities.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-
-                <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
-                <meta-data
-                    android:name="com.google.android.gms.ads.APPLICATION_ID"
-                    android:value="ca-app-pub-8469263715026322~8580007069"/>
-
-
+        </activity> <!-- Sample AdMob app ID: ca-app-pub-3940256099942544~3347511713 -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8469263715026322~8580007069" />
     </application>
 
 </manifest>

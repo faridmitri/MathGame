@@ -23,7 +23,7 @@ public class LeaderBoardA extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leader_board);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tabLayoutLeader = findViewById(R.id.tabLayoutLeader);
         viewPagerLeader = findViewById(R.id.viewPagerLeader);
 
