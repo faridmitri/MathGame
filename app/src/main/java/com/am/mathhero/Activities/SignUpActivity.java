@@ -24,8 +24,11 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -34,10 +37,10 @@ import com.squareup.picasso.Picasso;
 import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
-    EditText mail,password,username;
+    EditText mail, password, username;
     Button signUp;
     ProgressBar progressBar;
-    ImageView imageView,flagi;
+    ImageView imageView, flagi;
     Uri imageUri;
     boolean imageControl = false;
     TextView countrytxt;
@@ -80,11 +83,11 @@ public class SignUpActivity extends AppCompatActivity {
 //country
 
 
-        String   countryname = getIntent().getStringExtra("EXTRA_country");
+        String countryname = getIntent().getStringExtra("EXTRA_country");
         final int flag = World.getFlagOf(countryname);
         flagi.setImageResource(flag);
         country = World.getCountryFrom(countryname);
-        countryfirebase =  countryname;
+        countryfirebase = countryname;
         countrytxt.setText(countryfirebase);
 
 
@@ -104,12 +107,9 @@ public class SignUpActivity extends AppCompatActivity {
                 String userName = username.getText().toString();
 
 
-                if (!userEmail.equals("") && !userPassword.equals("") && !userName.equals(""))
-                {
-                    signUpFirebase(userEmail, userPassword,userName);
-                }
-                else
-                {
+                if (!userEmail.equals("") && !userPassword.equals("") && !userName.equals("")) {
+                    signUpFirebase(userEmail, userPassword, userName);
+                } else {
                     Toast.makeText(SignUpActivity.this,
                             "Complete all fields.",
                             Toast.LENGTH_LONG).show();
@@ -120,25 +120,24 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-
-    public void signUpFirebase(String userEmail, String userPassword,String userName)
-    {
+    public void signUpFirebase(String userEmail, String userPassword, String userName) {
         progressBar.setVisibility(View.VISIBLE);
         auth.createUserWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
-                        if(task.isSuccessful())
-                        {
+                        if (task.isSuccessful()) {
 
                             reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
                            reference.child("Users").child(auth.getUid()).child("country").setValue(countryfirebase);
-                            reference.child("Users").child(auth.getUid()).child("countryScore").setValue(0);
-                            reference.child("Users").child(auth.getUid()).child("diamons").setValue(1);
-                            reference.child("Users").child(auth.getUid()).child("score").setValue(0);
+                          // reference.child("Users").child(auth.getUid()).child("countryScore").setValue(0);
+                           reference.child("Users").child(auth.getUid()).child("diamons").setValue(1);
+                           reference.child("Users").child(auth.getUid()).child("score").setValue(0);
+                            checkchild();
 
-                            if(imageControl) {
+
+                            if (imageControl) {
                                 UUID randomID = UUID.randomUUID();
                                 final String imageName = "images/" + randomID + ".jpg";
                                 storageReference.child(imageName).putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
@@ -166,19 +165,14 @@ public class SignUpActivity extends AppCompatActivity {
                                     }
                                 });
                                 progressBar.setVisibility(View.INVISIBLE);
-                            }
-                             else
-                                {
-                                    reference.child("Users").child(auth.getUid()).child("image").setValue("null");
-                                }
-
-                                Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
-                                startActivity(intent);
-                                finish();
+                            } else {
+                                reference.child("Users").child(auth.getUid()).child("image").setValue("null");
                             }
 
-                        else
-                        {
+                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        } else {
                             Toast.makeText(SignUpActivity.this,
                                     "There is a problem! Please try again later.",
                                     Toast.LENGTH_LONG).show();
@@ -186,28 +180,44 @@ public class SignUpActivity extends AppCompatActivity {
 
                     }
                 });
-        }
+    }
 
 
-    public void imageChooser()
-    {
+    public void imageChooser() {
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,1);
+        startActivityForResult(intent, 1);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == RESULT_OK && data != null)
-        {
+        if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
             imageUri = data.getData();
             Picasso.get().load(imageUri).into(imageView);
-            imageControl =  true;
-        }
-        else
-        {
+            imageControl = true;
+        } else {
             imageControl = false;
         }
+    }
+
+    public void checkchild() {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries");
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(countryfirebase)) {
+                    // run some code
+                } else {
+                    reference.child("Countries").child(countryfirebase).setValue(0);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

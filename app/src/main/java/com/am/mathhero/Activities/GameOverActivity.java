@@ -48,6 +48,7 @@ public class GameOverActivity extends AppCompatActivity {
 
     int myNum;
     long setcountryScore;
+    String setcountry;
     long setScore;
 
     @Override
@@ -105,12 +106,12 @@ public class GameOverActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         setScore = (long) snapshot.child("score").getValue();
-                        setcountryScore = (long) snapshot.child("countryScore").getValue();
+                       setcountry = (String) snapshot.child("country").getValue();
                         myNum = Integer.parseInt(fbscore);
 
-                        setcountryScore += myNum;
+                    //    setcountryScore += myNum;
 
-                        reference.child("Users").child(auth.getUid()).child("countryScore").setValue(setcountryScore);
+                      //  reference.child("Users").child(auth.getUid()).child("countryScore").setValue(setcountryScore);
                         if (setScore < myNum) {
                             reference.child("Users").child(auth.getUid()).child("score").setValue(myNum);
                         }
@@ -121,6 +122,31 @@ public class GameOverActivity extends AppCompatActivity {
 
                     }
                 });
+
+
+                reference.child("Countries").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        myNum = Integer.parseInt(fbscore);
+                        setcountryScore = (long) snapshot.child(setcountry).getValue();
+                        setcountryScore += myNum;
+
+                        reference.child("Countries").child(setcountry).setValue(setcountryScore);
+
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+
+
+
 
 
                 Intent i = new Intent(GameOverActivity.this, LeaderBoardA.class);
