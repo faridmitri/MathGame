@@ -40,11 +40,11 @@ public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapter
 
 
     Context context;
-    ArrayList<Model> models;
+    ArrayList<String> models;
     int i = 0;
     public static int r;
 
-    public RecyclerAdapterCountry(Context c, ArrayList<Model> p) {
+    public RecyclerAdapterCountry(Context c, ArrayList<String> p) {
         context = c;
         models = p;
 
@@ -59,11 +59,11 @@ public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapter
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.score.setText("" +models.get(position).getCountryScore());
+        holder.country.setText("" +models.get(position));
 
-        holder.country.setText(models.get(position).getCountry());
+      holder.country.setText(models.get(position));
         World.init(context.getApplicationContext());
-        final int flag = World.getFlagOf(models.get(position).getCountry());
+        final int flag = World.getFlagOf(models.get(position));
         holder.flagi.setImageResource(flag);
         i += 1;
         holder.pos.setText(""+i);
@@ -74,15 +74,12 @@ public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapter
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
 
-        reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
+        reference.child("Countries").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                String name = snapshot.child("userName").getValue().toString();
-                if (name == models.get(position).getuserName()) {
-                    r = i;
-                    getr();
-                }
+                String scores = snapshot.child("" +models.get(position)).getValue().toString();
+                holder.score.setText(scores);
             }
 
             @Override

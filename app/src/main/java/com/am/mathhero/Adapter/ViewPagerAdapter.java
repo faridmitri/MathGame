@@ -7,6 +7,7 @@ import androidx.lifecycle.Lifecycle;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
 
 import com.am.mathhero.fragments.CountryScores;
+import com.am.mathhero.fragments.UserCountryScores;
 import com.am.mathhero.fragments.UserScores;
 
 
@@ -29,6 +30,10 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
                 fragment = UserScores.newInstance();
                 break;
             case 1:
+                fragment = UserCountryScores.newInstance();
+                break;
+
+            case 2:
                 fragment = CountryScores.newInstance();
                 break;
 
@@ -41,6 +46,6 @@ public class ViewPagerAdapter extends FragmentStateAdapter {
 
     @Override
     public int getItemCount() {
-        return 2;
+        return 3;
     }
 }

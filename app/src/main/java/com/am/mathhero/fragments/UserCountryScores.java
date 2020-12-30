@@ -14,8 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.am.mathhero.Activities.MainActivity;
-import com.am.mathhero.Adapter.RecyclerAdapterCountry;
-
+import com.am.mathhero.Adapter.RecyclerAdapterUser;
 import com.am.mathhero.Modal.Model;
 import com.am.mathhero.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -31,18 +30,18 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class CountryScores extends Fragment {
+public class UserCountryScores extends Fragment {
 
-    public static CountryScores newInstance()
+    public static UserCountryScores newInstance()
     {
-        return new CountryScores();
+        return new UserCountryScores();
     }
 
 
     Query reference;
     RecyclerView recyclerView;
-    ArrayList<String> list;
-    RecyclerAdapterCountry adapter;
+    ArrayList<Model> list;
+    RecyclerAdapterUser adapter;
     ProgressBar progressBarLeader;
     DatabaseReference ref;
     FirebaseUser firebaseUser;
@@ -57,7 +56,7 @@ public class CountryScores extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_country_scores,container,false);
+        View view = inflater.inflate(R.layout.fragment_user_scores,container,false);
 
         database = FirebaseDatabase.getInstance();
         ref = database.getReference();
@@ -74,20 +73,20 @@ public class CountryScores extends Fragment {
 
        c = MainActivity.countries();
 
-        reference = FirebaseDatabase.getInstance().getReference("Countries").orderByValue();
+        reference = FirebaseDatabase.getInstance().getReference("Users").orderByChild("country").equalTo(c);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                list = new ArrayList<String>();
+                list = new ArrayList<Model>();
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
                 {
-                    String p = dataSnapshot1.getKey();
+                    Model p = dataSnapshot1.getValue(Model.class);
                     list.add(p);
-                //   Collections.sort(list, Model.byscore);
+                    Collections.sort(list,Model.byscore);
                 }
-                adapter = new RecyclerAdapterCountry(getActivity(),list);
+                adapter = new RecyclerAdapterUser(getActivity(),list);
                 recyclerView.setAdapter(adapter);
-                int r = RecyclerAdapterCountry.getr();
+                int r = RecyclerAdapterUser.getr();
                 recyclerView.setLayoutManager(layoutManager);
                 recyclerView.smoothScrollToPosition(r);
                 progressBarLeader.setVisibility(View.INVISIBLE);

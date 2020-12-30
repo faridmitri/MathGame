@@ -14,26 +14,32 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathHero">
-        <activity android:name=".Activities.DiamondsActivity"
+        <activity android:name=".Activities.Diamons2"></activity>
+        <activity
+            android:name=".Activities.DiamondsActivity"
             android:parentActivityName=".Activities.MainActivity"
-            android:theme="@style/Theme.MyMathHero"
-           />
-        <activity android:name=".Activities.LeaderBoardA"
+            android:theme="@style/Theme.MyMathHero" />
+        <activity
+            android:name=".Activities.LeaderBoardA"
             android:parentActivityName=".Activities.MainActivity"
-            android:theme="@style/Theme.MyMathHero"/>
-        <activity android:name=".Activities.ForgetActivity"
+            android:theme="@style/Theme.MyMathHero" />
+        <activity
+            android:name=".Activities.ForgetActivity"
             android:parentActivityName=".Activities.LoginActivity"
-            android:theme="@style/Theme.MyMathHero"/>
-        <activity android:name=".Activities.ProfileActivity"
-            android:theme="@style/Theme.MyMathHero"
-            android:parentActivityName=".Activities.MainActivity"/>
+            android:theme="@style/Theme.MyMathHero" />
+        <activity
+            android:name=".Activities.ProfileActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/Theme.MyMathHero" />
         <activity android:name=".Activities.GameOverActivity" />
         <activity android:name=".Activities.QuizActivity" />
-        <activity android:name=".Activities.SignUpActivity"
+        <activity
+            android:name=".Activities.SignUpActivity"
             android:parentActivityName=".Activities.LoginActivity"
-            android:theme="@style/Theme.MyMathHero"/>
-        <activity android:name=".Activities.LoginActivity"
-            android:theme="@style/Theme.MyMathHero"/>
+            android:theme="@style/Theme.MyMathHero" />
+        <activity
+            android:name=".Activities.LoginActivity"
+            android:theme="@style/Theme.MyMathHero" />
         <activity
             android:name=".Activities.MainActivity"
             android:theme="@style/Theme.MyMathHero" />

@@ -45,6 +45,9 @@ public class LeaderBoardA extends AppCompatActivity {
                         tab.setText("By Country");
                         break;
 
+                    case 2:
+                        tab.setText("Countries");
+
                 }
 
             }

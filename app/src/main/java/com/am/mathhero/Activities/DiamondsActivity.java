@@ -1,5 +1,5 @@
 package com.am.mathhero.Activities;
-
+/*
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -258,7 +258,7 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
      * <p>Note: It's strongly recommended to perform such check on your backend since hackers can
      * replace this method with "constant true" if they decompile/rebuild your app.
      * </p>
-     */
+     */    /*
     private boolean verifyValidSignature(String signedData, String signature) {
         try {
             //for old playconsole
@@ -281,4 +281,4 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
         }
     }
 
-}
+}  */

@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this,DiamondsActivity.class);
+                Intent intent = new Intent(MainActivity.this,Diamons2.class);
                 startActivity(intent);
                 finish();
             }
