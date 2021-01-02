@@ -151,6 +151,7 @@ public class GameOverActivity extends AppCompatActivity {
 
                 Intent i = new Intent(GameOverActivity.this, LeaderBoardA.class);
                 startActivity(i);
+                finish();
 
             }
         });

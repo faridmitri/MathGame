@@ -228,14 +228,13 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                number = number.substring(0, number.length() - 1);
-
                 if (number.length() == 0) {
                     btnDel.setEnabled(false);
+                } else {
+                    number = number.substring(0, number.length() - 1);
+
+                    answer.setText(number);
                 }
-
-                answer.setText(number);
-
 
             }
         });
@@ -252,6 +251,7 @@ public class QuizActivity extends AppCompatActivity {
         else {
             number = number + view;
             answer.setText(number);
+
         }
     }
 
@@ -293,6 +293,7 @@ public class QuizActivity extends AppCompatActivity {
 
 
     public void gameContinue() {
+        btnDel.setEnabled(false);
         ok.setEnabled(true);
         number = null;
         answer.setText(number);

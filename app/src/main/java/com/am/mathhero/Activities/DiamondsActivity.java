@@ -1,5 +1,5 @@
 package com.am.mathhero.Activities;
-/*
+
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +24,11 @@ import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,23 +38,36 @@ import static com.android.billingclient.api.BillingClient.SkuType.INAPP;
 
 public class DiamondsActivity extends AppCompatActivity implements PurchasesUpdatedListener {
 
+    long wisdoms;
+
+
+    FirebaseAuth auth;
+    DatabaseReference reference;
+    FirebaseDatabase database;
+
+
     public static final String PREF_FILE= "MyPref";
     //note add unique product ids
     //use same id for preference key
     private static ArrayList<String> purchaseItemIDs = new ArrayList() {{
-        add("5diamonds");
-        add("15diamonds");
-        add("25diamonds");
+        add("diamond5");
+        add("diamond15");
+        add("diamond25");
     }};
 
-    private static ArrayList<String> purchaseItemNames = new ArrayList() {{
+  /*  private static ArrayList<String> purchaseItemNames = new ArrayList() {{
         add("Purshase 5 diamonds");
         add("Purshase 15 diamonds");
         add("Purshase 25 diamonds");
-    }};
 
-    private static ArrayList<String> purchaseItemDisplay = new ArrayList();
+        private static ArrayList<String> purchaseItemDisplay = new ArrayList();
     ArrayAdapter<String> arrayAdapter;
+    }};  */
+
+    String countryList[] = {"5 Diamonds","15 Diamonds","25 Diamonds"};
+    int flags[] = {R.drawable.buy5,R.drawable.buy15,R.drawable.buy25};
+
+
     ListView listView;
 
     private BillingClient billingClient;
@@ -59,9 +77,14 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diamonds);
 
+        auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        reference = database.getReference();
+
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        listView=(ListView) findViewById(R.id.listview);
+         wisdoms = getIntent().getLongExtra("diamond", 0);
 
         // Establish connection to billing client
         //check purchase status from google play store cache on every app start
@@ -85,9 +108,13 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
         });
 
 
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, purchaseItemDisplay);
+   /*     arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, purchaseItemDisplay);
         listView.setAdapter(arrayAdapter);
-        notifyList();
+        notifyList();  */
+
+        listView=(ListView) findViewById(R.id.listview);
+        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), countryList, flags);
+        listView.setAdapter(customAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,13 +149,13 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
         });
     }
 
-    private void notifyList(){
+   /* private void notifyList(){
         purchaseItemDisplay.clear();
         for(String p:purchaseItemNames){
             purchaseItemDisplay.add(p+" consumed "+getPurchaseCountValueFromPref(p)+" time(s)");
         }
         arrayAdapter.notifyDataSetChanged();
-    }
+    }  */
 
     private SharedPreferences getPreferenceObject() {
         return getApplicationContext().getSharedPreferences(PREF_FILE, 0);
@@ -226,10 +253,24 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
                             @Override
                             public void onConsumeResponse(BillingResult billingResult, String purchaseToken) {
                                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                                    int consumeCountValue=getPurchaseCountValueFromPref(purchaseItemIDs.get(index))+1;
-                                    savePurchaseCountValueToPref(purchaseItemIDs.get(index),consumeCountValue);
+                               //     int consumeCountValue=getPurchaseCountValueFromPref(purchaseItemIDs.get(index))+1;
+                                 //   savePurchaseCountValueToPref(purchaseItemIDs.get(index),consumeCountValue);
+
+                                    if (purchaseItemIDs.get(index).equals("diamond5")) {
+                                        wisdoms += 5;
+                                        reference.child("Users").child(auth.getUid()).child("diamons").setValue(wisdoms);
+                                    } else if (purchaseItemIDs.get(index).equals("diamond15")){
+                                        wisdoms += 15;
+                                        reference.child("Users").child(auth.getUid()).child("diamons").setValue(wisdoms);
+                                    } else if (purchaseItemIDs.get(index).equals("diamond25")){
+                                        wisdoms += 25;
+                                        reference.child("Users").child(auth.getUid()).child("diamons").setValue(wisdoms);
+                                    }
+
+
+
                                     Toast.makeText(getApplicationContext(), "Item "+ purchaseItemIDs.get(index) +"Consumed", Toast.LENGTH_SHORT).show();
-                                    notifyList();
+                                   // notifyList();
                                 }
                             }
                         });
@@ -258,7 +299,8 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
      * <p>Note: It's strongly recommended to perform such check on your backend since hackers can
      * replace this method with "constant true" if they decompile/rebuild your app.
      * </p>
-     */    /*
+     */
+
     private boolean verifyValidSignature(String signedData, String signature) {
         try {
             //for old playconsole
@@ -281,4 +323,4 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
         }
     }
 
-}  */
+}

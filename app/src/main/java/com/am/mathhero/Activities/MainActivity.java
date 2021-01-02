@@ -57,9 +57,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this,Diamons2.class);
+                Intent intent = new Intent(MainActivity.this,DiamondsActivity.class);
+                intent.putExtra("diamond", diamons);
                 startActivity(intent);
-                finish();
+
             }
         });
 
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,QuizActivity.class);
                 intent.putExtra("diamond", diamons);
                 startActivity(intent);
-                finish();
+
             }
         });
 
