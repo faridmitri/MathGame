@@ -33,6 +33,7 @@ import java.util.ArrayList;
 public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapterCountry.MyViewHolder> {
 
 
+
     FirebaseDatabase database;
     DatabaseReference reference;
     FirebaseAuth auth;

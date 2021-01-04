@@ -23,10 +23,8 @@
         android:id="@+id/textMathHero"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="231dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="6dp"
+        android:layout_marginTop="46dp"
+        android:layout_marginBottom="23dp"
         android:fontFamily="sans-serif-black"
         android:gravity="center"
         android:text="Math Hero"
@@ -36,31 +34,31 @@
         app:layout_constraintBottom_toTopOf="@+id/textFarid"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/adView" />
+
 
     <TextView
         android:id="@+id/textFarid"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="212dp"
+        android:layout_marginBottom="13dp"
         android:gravity="center"
         android:text="By Farid"
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#3F51B5"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView"
-        app:layout_constraintEnd_toEndOf="@+id/textMathHero"
-        app:layout_constraintStart_toStartOf="@+id/textMathHero"
-        app:layout_constraintTop_toBottomOf="@+id/textMathHero" />
+        app:layout_constraintBottom_toTopOf="@+id/gifImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
-    <ImageView
-        android:id="@+id/imageView"
+    <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/gifImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="180dp"
+        android:src="@drawable/arm1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textFarid"
-        app:srcCompat="@drawable/arm" />
+        app:layout_constraintTop_toBottomOf="@+id/adView" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

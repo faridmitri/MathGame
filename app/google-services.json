@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "143446184009-ad3bn2isosbm99otm0g826t6gp4raepd.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.am.mathhero",
+            "certificate_hash": "3ee2d70cf23638c9830e29b323c340df8f73918a"
+          }
+        },
+        {
           "client_id": "143446184009-qc69793erop6t04fi5qd3h5vbhsraj00.apps.googleusercontent.com",
           "client_type": 3
         }

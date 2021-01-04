@@ -15,6 +15,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -56,10 +57,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText mail;
     EditText password;
     Button signIn,signUp;
-    SignInButton signinGoogle;
     TextView forgotPassword;
     ProgressBar progressBarSignin;
-    GoogleSignInClient googleSignInClient;
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
     String address;
@@ -129,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
             mail = findViewById(R.id.editTextLoginEmail);
         password = findViewById(R.id.editTextLoginPassword);
         signIn = findViewById(R.id.buttonLoginSignin);
-        signinGoogle = findViewById(R.id.buttonLoginGoogleSignin);
+
         signUp = findViewById(R.id.buttonSignUp);
         forgotPassword = findViewById(R.id.textViewLoginForgotPassword);
         progressBarSignin = findViewById(R.id.progressBarSignin);
@@ -167,9 +166,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent i = new Intent(LoginActivity.this, SignUpActivity.class);
-                i.putExtra("EXTRA_country", address);
-                startActivity(i);
+                Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                if (address == null) {
+                    TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                    address = tm.getSimCountryIso();
+                    Locale loc = new Locale("",address);
+                   address = loc.getDisplayCountry();
+                }
+                intent.putExtra("EXTRA_country", address);
+                startActivity(intent);
 
             }
         });

@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
 import com.google.android.gms.ads.AdRequest;
@@ -20,7 +20,7 @@ import com.am.mathhero.R;
 public class SplashScreenActivity extends AppCompatActivity {
 
     TextView textViewMathHero,textViewFarid;
-    ImageView imageView;
+
     private AdView mAdView;
 
     @Override
@@ -42,7 +42,7 @@ public class SplashScreenActivity extends AppCompatActivity {
 
         textViewMathHero = findViewById(R.id.textMathHero);
         textViewFarid = findViewById(R.id.textFarid);
-        imageView= findViewById(R.id.imageView);
+
 
       //  Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.splash);
         //textViewMathHero.startAnimation(animation);

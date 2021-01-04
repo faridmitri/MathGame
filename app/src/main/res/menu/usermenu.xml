@@ -4,6 +4,11 @@
     <item
         android:id="@+id/action_profile"
         android:title="Profile" />
+
+    <item
+        android:id="@+id/support"
+        android:title="Support" />
+
     <item
         android:id="@+id/action_signout"
         android:title="Sign Out" />

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.am.mathhero.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -52,7 +53,8 @@ public class MainActivity extends AppCompatActivity {
         firebaseUser = auth.getCurrentUser();
         progressBar = findViewById(R.id.progressBar5);
         getUserInfo();
-
+        start.setEnabled(false);
+        buy_wisdom.setEnabled(false);
         buy_wisdom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +110,25 @@ public class MainActivity extends AppCompatActivity {
 
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
         }
+
+        if (item.getItemId() == R.id.support)
+        {
+            Intent i = new Intent(Intent.ACTION_SEND);
+            i.setType("message/rfc822");
+            i.putExtra(Intent.EXTRA_EMAIL  , new String[]{"andro.app@yahoo.com"});
+            i.putExtra(Intent.EXTRA_SUBJECT, "Math Quiz");
+            i.putExtra(Intent.EXTRA_TEXT   , "");
+            try {
+                startActivity(Intent.createChooser(i, "Send mail..."));
+            } catch (android.content.ActivityNotFoundException ex) {
+                Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            }
+
+
+
+        }
+
+
         return super.onOptionsItemSelected(item);
     }
 
@@ -125,6 +146,8 @@ public class MainActivity extends AppCompatActivity {
                 hightScore.setText(hightscore);
                 userCountry = snapshot.child("country").getValue().toString();
                 progressBar.setVisibility(View.INVISIBLE);
+                start.setEnabled(true);
+                buy_wisdom.setEnabled(true);
 
             }
 

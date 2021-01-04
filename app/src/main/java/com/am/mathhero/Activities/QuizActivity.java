@@ -98,9 +98,7 @@ public class QuizActivity extends AppCompatActivity {
 
         wisdom.setText(""+wisdoms);
         retreive();
-        if (wisdoms == 0) {
-            stop.setEnabled(false);
-        } else {stop.setEnabled(true);}
+
 
         operations = new Operations();
 
@@ -109,6 +107,7 @@ public class QuizActivity extends AppCompatActivity {
         stop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                stop.setEnabled(false);
                 pauseTimer();
                 savefirebase();
 
@@ -297,6 +296,10 @@ public class QuizActivity extends AppCompatActivity {
         ok.setEnabled(true);
         number = null;
         answer.setText(number);
+
+        if (wisdoms == 0) {
+            stop.setEnabled(false);
+        } else {stop.setEnabled(true);}
 
         if (userscore < 5){level = 1;TOTAL_TIME= 20000;levelscore =1;progresslevel=20;} else
         if (userscore < 15){level = 2;TOTAL_TIME= 20000;levelscore =2;progresslevel=20;} else
