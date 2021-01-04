@@ -198,7 +198,7 @@ public class GameOverActivity extends AppCompatActivity {
 
 public RewardedAd loadad(){
     rewardedAd = new RewardedAd(this,
-            "ca-app-pub-3940256099942544/5224354917");
+            "ca-app-pub-8469263715026322/3266892639");
     RewardedAdLoadCallback adLoadCallback = new RewardedAdLoadCallback() {
         @Override
         public void onRewardedAdLoaded() {

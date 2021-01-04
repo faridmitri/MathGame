@@ -2,6 +2,7 @@ package com.am.mathhero.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 import com.am.mathhero.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -20,6 +22,7 @@ public class ForgetActivity extends AppCompatActivity {
     private TextInputEditText editTextForget;
     private Button buttonForget;
     private ProgressBar progressBar;
+    ConstraintLayout constraintLayout;
 
     FirebaseAuth auth;
 
@@ -34,6 +37,7 @@ public class ForgetActivity extends AppCompatActivity {
         progressBar = (ProgressBar) findViewById(R.id.progressBar4);
         progressBar.setVisibility(View.GONE);
         auth = FirebaseAuth.getInstance();
+        constraintLayout = findViewById(R.id.constraint);
 
         buttonForget.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +54,23 @@ public class ForgetActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(ForgetActivity.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+                                Snackbar snackbar = Snackbar.make(constraintLayout,"Check your email",Snackbar.LENGTH_INDEFINITE)
+                                  .setAction("Close", new View.OnClickListener() {
+                                      @Override
+                                      public void onClick(View v) {
+                                      }
+                                  })
+                                        ;
+                                snackbar.show();
                             } else {
-                                Toast.makeText(ForgetActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                                Snackbar snackbar = Snackbar.make(constraintLayout,"Error try later or contact us",Snackbar.LENGTH_INDEFINITE)
+                                        .setAction("Close", new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                            }
+                                        })
+                                        ;
+                                snackbar.show();
                             }
 
                             progressBar.setVisibility(View.GONE);

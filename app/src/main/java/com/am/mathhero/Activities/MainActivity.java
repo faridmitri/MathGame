@@ -16,6 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.am.mathhero.R;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,13 +37,15 @@ public class MainActivity extends AppCompatActivity {
     long diamons;
     static String userCountry;
     ProgressBar progressBar;
-
+    private InterstitialAd mInterstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        mInterstitialAd = new InterstitialAd(this);
+        mInterstitialAd.setAdUnitId("ca-app-pub-8469263715026322/1317679859");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         start = findViewById(R.id.start);
         wisdom = findViewById(R.id.wisdom_coin);
@@ -80,8 +85,26 @@ public class MainActivity extends AppCompatActivity {
         results.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(MainActivity.this, LeaderBoardA.class);
-                startActivity(i);
+                if (mInterstitialAd.isLoaded()) {
+                    mInterstitialAd.show();
+                } else {
+                    Toast.makeText(MainActivity.this, "Ad not loaded", Toast.LENGTH_SHORT).show();
+                }
+
+                mInterstitialAd.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        // Load the next interstitial.
+                        Intent i = new Intent(MainActivity.this, LeaderBoardA.class);
+                        startActivity(i);
+                        mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                    }
+
+                });
+
+
+
+
             }
         });
 

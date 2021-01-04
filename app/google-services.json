@@ -23,6 +23,14 @@
           }
         },
         {
+          "client_id": "143446184009-ef6d27pjbslb37rojspcgbuem6f2slsk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.am.mathhero",
+            "certificate_hash": "9c5900339f09a2b6da3e1fb9a0ed22111215e30f"
+          }
+        },
+        {
           "client_id": "143446184009-qc69793erop6t04fi5qd3h5vbhsraj00.apps.googleusercontent.com",
           "client_type": 3
         }
