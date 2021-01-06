@@ -141,8 +141,9 @@ public class ProfileActivity extends AppCompatActivity {
     public void updateProfile()
     {    progressBar.setVisibility(View.VISIBLE);
         String userName = editTextUserNameProfile.getText().toString();
+        String country =  countryfirebase.getText().toString();
         reference.child("Users").child(firebaseUser.getUid()).child("userName").setValue(userName);
-        reference.child("Users").child(firebaseUser.getUid()).child("country").setValue(address);
+        reference.child("Users").child(firebaseUser.getUid()).child("country").setValue(country);
 
         if(imageControl)
         {

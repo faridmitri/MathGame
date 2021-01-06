@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.am.mathhero.Activities.MainActivity;
 import com.am.mathhero.Modal.Model;
 import com.am.mathhero.R;
 import com.blongho.country_data.World;
@@ -61,7 +62,10 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
 
 
         holder.userName.setText(models.get(position).getuserName());
+        String user = models.get(position).getuserName().trim();
         holder.score.setText("" +models.get(position).getScore());
+        i = getItemCount() - position;
+        holder.rank.setText("Rank: " + i);
         //holder.country.setText(models.get(position).getCountry());
         if (models.get(position).getimage().equals("null"))
         {
@@ -75,11 +79,21 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
         World.init(context.getApplicationContext());
        final int flag = World.getFlagOf(models.get(position).getCountry());
         holder.flagi.setImageResource(flag);
-        i += 1;
-        holder.rank.setText("Rank: "+i);
 
 
-        database = FirebaseDatabase.getInstance();
+
+
+       /* String used = MainActivity.name().trim();
+
+        if (user.equals(used) ) {
+
+
+            r = position;
+          getpos();
+        }
+
+
+      /*  database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
@@ -100,15 +114,10 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });  */
 
 
     }
-
-
-
-
-
 
 
     @Override
@@ -121,6 +130,7 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
         TextView userName,score,rank;
         ImageView image,flagi;
 
+
         // Button btn;
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -130,6 +140,8 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
 
             rank = (TextView) itemView.findViewById(R.id.rank);
             image = (ImageView) itemView.findViewById(R.id.cflag);
+
+
             //     btn = (Button) itemView.findViewById(R.id.checkDetails);
         }
        /* public void onClick(final int position)
@@ -142,8 +154,8 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
             });
         }  */
     }
-    public static int getr(){
+   /* public static int getpos(){
 
         return r;
-    }
+    }*/
 }

@@ -66,9 +66,10 @@ public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapter
         World.init(context.getApplicationContext());
         final int flag = World.getFlagOf(models.get(position));
         holder.flagi.setImageResource(flag);
-        i += 1;
-        holder.pos.setText(""+i);
-
+     //   i += 1;
+       // holder.pos.setText(""+i);
+        i = getItemCount() - position;
+        holder.pos.setText(""+ i);
 
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();

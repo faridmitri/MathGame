@@ -86,9 +86,9 @@ public class UserCountryScores extends Fragment {
                 }
                 adapter = new RecyclerAdapterUser(getActivity(),list);
                 recyclerView.setAdapter(adapter);
-                int r = RecyclerAdapterUser.getr();
+            //    int r = RecyclerAdapterUser.getr();
                 recyclerView.setLayoutManager(layoutManager);
-                recyclerView.smoothScrollToPosition(r);
+             //   recyclerView.smoothScrollToPosition(r);
                 progressBarLeader.setVisibility(View.INVISIBLE);
             }
 

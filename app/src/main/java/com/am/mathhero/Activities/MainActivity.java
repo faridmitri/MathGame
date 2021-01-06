@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference reference;
     FirebaseUser firebaseUser;
     long diamons;
-    static String userCountry;
+    static String userCountry,name,user;
     ProgressBar progressBar;
     private InterstitialAd mInterstitialAd;
     @Override
@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-8469263715026322/1317679859");
+        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        //mInterstitialAd.setAdUnitId("ca-app-pub-8469263715026322/1317679859");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         start = findViewById(R.id.start);
@@ -88,7 +89,9 @@ public class MainActivity extends AppCompatActivity {
                 if (mInterstitialAd.isLoaded()) {
                     mInterstitialAd.show();
                 } else {
-                    Toast.makeText(MainActivity.this, "Ad not loaded", Toast.LENGTH_SHORT).show();
+                    Intent i = new Intent(MainActivity.this, LeaderBoardA.class);
+                    startActivity(i);
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
                 }
 
                 mInterstitialAd.setAdListener(new AdListener() {
@@ -101,8 +104,6 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                 });
-
-
 
 
             }
@@ -171,6 +172,9 @@ public class MainActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.INVISIBLE);
                 start.setEnabled(true);
                 buy_wisdom.setEnabled(true);
+                user = snapshot.getKey();
+                name = snapshot.child("userName").getValue().toString();
+
 
             }
 
@@ -187,6 +191,12 @@ public class MainActivity extends AppCompatActivity {
 
         String c = userCountry;
         return c;
+    }
+
+    public static String user(){
+
+        String n = user;
+        return n;
     }
 
 }
