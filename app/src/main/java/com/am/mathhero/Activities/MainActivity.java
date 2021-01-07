@@ -44,8 +44,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         mInterstitialAd = new InterstitialAd(this);
-        mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
-        //mInterstitialAd.setAdUnitId("ca-app-pub-8469263715026322/1317679859");
+       // mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-8469263715026322/1317679859");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         start = findViewById(R.id.start);

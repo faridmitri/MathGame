@@ -58,6 +58,7 @@ public class ProfileActivity extends AppCompatActivity {
     private Button buttonUpdate;
     private TextView countryfirebase;
     ProgressBar progressBar,progressBar3;
+    String country;
 
     LocationManager locationManager;
     LocationListener locationListener;
@@ -88,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     String image,address;
     ImageView flagi;
-    String countryname;
+
     Button gpsbtn;
 
     @Override
@@ -141,9 +142,10 @@ public class ProfileActivity extends AppCompatActivity {
     public void updateProfile()
     {    progressBar.setVisibility(View.VISIBLE);
         String userName = editTextUserNameProfile.getText().toString();
-        String country =  countryfirebase.getText().toString();
+        country =  countryfirebase.getText().toString();
         reference.child("Users").child(firebaseUser.getUid()).child("userName").setValue(userName);
         reference.child("Users").child(firebaseUser.getUid()).child("country").setValue(country);
+        check();
 
         if(imageControl)
         {
@@ -298,8 +300,23 @@ public class ProfileActivity extends AppCompatActivity {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
         }
 
+    }
+    public void check() {
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries");
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild(country)) {
+                    // run some code
+                } else {
+                    reference.child("Countries").child(country).setValue(0);
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-
+            }
+        });
     }
 }
