@@ -118,8 +118,8 @@ public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapter
         }
 
     }
-    public static int getr(){
+  /*  public static int getr(){
 
         return r;
-    }
+    }*/
 }

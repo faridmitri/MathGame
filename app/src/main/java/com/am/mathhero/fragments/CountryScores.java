@@ -18,6 +18,10 @@ import com.am.mathhero.Adapter.RecyclerAdapterCountry;
 
 import com.am.mathhero.Modal.Model;
 import com.am.mathhero.R;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -65,6 +69,7 @@ public class CountryScores extends Fragment {
         firebaseUser = auth.getCurrentUser();
 
 
+
         progressBarLeader = view.findViewById(R.id.progressBarLeader);
         recyclerView = view.findViewById(R.id.recycler);
         //   recyclerView.setLayoutManager( new LinearLayoutManager(this));
@@ -87,9 +92,9 @@ public class CountryScores extends Fragment {
                 }
                 adapter = new RecyclerAdapterCountry(getActivity(),list);
                 recyclerView.setAdapter(adapter);
-                int r = RecyclerAdapterCountry.getr();
+              //  int r = RecyclerAdapterCountry.getr();
                 recyclerView.setLayoutManager(layoutManager);
-                recyclerView.smoothScrollToPosition(r);
+             //   recyclerView.smoothScrollToPosition(r);
                 progressBarLeader.setVisibility(View.INVISIBLE);
             }
 
@@ -103,6 +108,8 @@ public class CountryScores extends Fragment {
 
         return view;
     }
+
+
 
 
 }

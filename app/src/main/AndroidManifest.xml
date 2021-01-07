@@ -30,7 +30,11 @@
             android:name=".Activities.ProfileActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/Theme.MyMathHero" />
-        <activity android:name=".Activities.GameOverActivity" />
+
+        <activity android:name=".Activities.GameOverActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/Theme.MyMathHero" />
+
         <activity android:name=".Activities.QuizActivity" />
         <activity
             android:name=".Activities.SignUpActivity"
