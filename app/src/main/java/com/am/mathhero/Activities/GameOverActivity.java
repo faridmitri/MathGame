@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -192,6 +193,7 @@ public class GameOverActivity extends AppCompatActivity {
             };
             rewardedAd.show(activityContext, adCallback);
         } else {
+            Toast.makeText(GameOverActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
             Log.d("TAG", "The rewarded ad wasn't loaded yet.");
         }
     }

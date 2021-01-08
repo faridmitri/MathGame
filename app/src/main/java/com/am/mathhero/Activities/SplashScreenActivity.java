@@ -16,6 +16,7 @@ import com.google.android.gms.ads.initialization.OnInitializationCompleteListene
 
 
 import com.am.mathhero.R;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SplashScreenActivity extends AppCompatActivity {
 
@@ -27,7 +28,7 @@ public class SplashScreenActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
             public void onInitializationComplete(InitializationStatus initializationStatus) {

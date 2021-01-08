@@ -41,6 +41,8 @@ import java.util.Date;
 import static java.lang.System.currentTimeMillis;
 
 public class MainActivity extends AppCompatActivity {
+
+
     Button start,results,buy_wisdom;
     TextView wisdom,hightScore;
     FirebaseAuth auth;
