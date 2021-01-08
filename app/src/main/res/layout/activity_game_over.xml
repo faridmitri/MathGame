@@ -23,12 +23,6 @@
         android:textColor="@color/purple_700"
         android:textSize="36sp" />
 
-    <ProgressBar
-        android:id="@+id/progressBar2"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
     <Button
         android:id="@+id/buttonad"
         android:layout_width="match_parent"
@@ -40,6 +34,13 @@
         android:id="@+id/leaderBoard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="50dp"
         android:text="Add your score" />
+
+    <ProgressBar
+        android:id="@+id/progressBar2"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </LinearLayout>

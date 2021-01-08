@@ -2,6 +2,8 @@ package com.am.mathhero.Activities;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,6 +27,10 @@ import com.google.android.gms.ads.rewarded.RewardItem;
 import com.google.android.gms.ads.rewarded.RewardedAd;
 import com.google.android.gms.ads.rewarded.RewardedAdCallback;
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback;
+import com.google.android.play.core.review.ReviewInfo;
+import com.google.android.play.core.review.ReviewManager;
+import com.google.android.play.core.review.ReviewManagerFactory;
+import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -32,6 +38,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Date;
+
+import static java.lang.System.currentTimeMillis;
 
 
 public class GameOverActivity extends AppCompatActivity {
@@ -51,6 +61,8 @@ public class GameOverActivity extends AppCompatActivity {
     long setcountryScore;
     String setcountry;
     long setScore;
+    long installTimeInMilliseconds; // install time is conveniently provided in milliseconds
+    private ReviewManager reviewManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +76,7 @@ public class GameOverActivity extends AppCompatActivity {
         });
 
        loadad();
+
 
         final MediaPlayer gameover = MediaPlayer.create(this, R.raw.gameover);
         gameover.start();
@@ -83,6 +96,17 @@ public class GameOverActivity extends AppCompatActivity {
         reference = database.getReference();
         chance = findViewById(R.id.buttonad);
         leader = findViewById(R.id.leaderBoard);
+
+        reviewManager = ReviewManagerFactory.create(this);
+        getInstallDate();
+
+        long l =currentTimeMillis();
+        if (  installTimeInMilliseconds + (86400000 * 3) < l)
+        {
+            showRateApp();
+        }
+
+
 
         boolean chanceflag = getIntent().getBooleanExtra("chanceflag", false);
         if (chanceflag) {
@@ -216,4 +240,45 @@ public RewardedAd loadad(){
     return rewardedAd;
 }
 
+    public void showRateApp() {
+        Task<ReviewInfo> request = reviewManager.requestReviewFlow();
+        request.addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                // We can get the ReviewInfo object
+                ReviewInfo reviewInfo = task.getResult();
+
+                Task<Void> flow = reviewManager.launchReviewFlow(this, reviewInfo);
+                flow.addOnCompleteListener(task1 -> {
+                    // The flow has finished. The API does not indicate whether the user
+                    // reviewed or not, or even whether the review dialog was shown. Thus, no
+                    // matter the result, we continue our app flow.
+                });
+            } else {
+                // There was some problem, continue regardless of the result.
+                // show native rate app dialog on error
+                //   showRateAppFallbackDialog();
+            }
+        });
+    }
+
+
+    private String getInstallDate() {
+        // get app installation date
+        PackageManager packageManager =  this.getPackageManager();
+
+        Date installDate = null;
+        String installDateString = null;
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
+            installTimeInMilliseconds = packageInfo.firstInstallTime;
+
+
+        }
+        catch (PackageManager.NameNotFoundException e) {
+            // an error occurred, so display the Unix epoch
+            installDate = new Date(0);
+            installDateString = installDate.toString();
+        }
+        return installDateString;
+    }
 }

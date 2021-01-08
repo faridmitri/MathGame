@@ -54,24 +54,12 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private InterstitialAd mInterstitialAd;
 
-    long installTimeInMilliseconds; // install time is conveniently provided in milliseconds
-    private ReviewManager reviewManager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        reviewManager = ReviewManagerFactory.create(this);
-
-        getInstallDate();
-
-        long l =currentTimeMillis();
-        if (  installTimeInMilliseconds + (86400000 * 3) < l)
-        {
-            showRateApp();
-        }
-
 
         mInterstitialAd = new InterstitialAd(this);
        // mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -229,47 +217,5 @@ public class MainActivity extends AppCompatActivity {
         return n;
     }
 
-
-    public void showRateApp() {
-        Task<ReviewInfo> request = reviewManager.requestReviewFlow();
-        request.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // We can get the ReviewInfo object
-                ReviewInfo reviewInfo = task.getResult();
-
-                Task<Void> flow = reviewManager.launchReviewFlow(this, reviewInfo);
-                flow.addOnCompleteListener(task1 -> {
-                    // The flow has finished. The API does not indicate whether the user
-                    // reviewed or not, or even whether the review dialog was shown. Thus, no
-                    // matter the result, we continue our app flow.
-                });
-            } else {
-                // There was some problem, continue regardless of the result.
-                // show native rate app dialog on error
-                //   showRateAppFallbackDialog();
-            }
-        });
-    }
-
-
-    private String getInstallDate() {
-        // get app installation date
-        PackageManager packageManager =  this.getPackageManager();
-
-        Date installDate = null;
-        String installDateString = null;
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(this.getPackageName(), 0);
-            installTimeInMilliseconds = packageInfo.firstInstallTime;
-
-
-        }
-        catch (PackageManager.NameNotFoundException e) {
-            // an error occurred, so display the Unix epoch
-            installDate = new Date(0);
-            installDateString = installDate.toString();
-        }
-        return installDateString;
-    }
 
 }
