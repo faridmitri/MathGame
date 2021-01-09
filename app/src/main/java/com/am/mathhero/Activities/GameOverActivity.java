@@ -217,7 +217,7 @@ public class GameOverActivity extends AppCompatActivity {
             };
             rewardedAd.show(activityContext, adCallback);
         } else {
-            Toast.makeText(GameOverActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+            Toast.makeText(GameOverActivity.this, "Wait a bit and repress the button", Toast.LENGTH_SHORT).show();
             Log.d("TAG", "The rewarded ad wasn't loaded yet.");
         }
     }

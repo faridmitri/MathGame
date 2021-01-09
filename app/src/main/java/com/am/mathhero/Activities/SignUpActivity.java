@@ -128,7 +128,6 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
-
                             reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
                            reference.child("Users").child(auth.getUid()).child("country").setValue(countryfirebase);
                           // reference.child("Users").child(auth.getUid()).child("countryScore").setValue(0);
@@ -220,4 +219,6 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }

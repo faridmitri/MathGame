@@ -353,8 +353,8 @@ public class QuizActivity extends AppCompatActivity {
 
             case 4:
                 r = random.nextInt(3);
-                if(r==0){operations.addition(500);}
-                else if(r==1){operations.subtraction(500);}
+                if(r==0){operations.addition(400);}
+                else if(r==1){operations.subtraction(400);}
                 else if(r==2){operations.multiplication(30);}
 
                 firstnum = String.valueOf(Operations.getFirstNumber());
@@ -380,8 +380,8 @@ public class QuizActivity extends AppCompatActivity {
 
             case 6:
                 r = random.nextInt(4);
-                if(r==0){operations.addition(500);}
-                else if(r==1){operations.subtraction(500);}
+                if(r==0){operations.addition(600);}
+                else if(r==1){operations.subtraction(600);}
                 else if(r==2){operations.multiplication(40);}
                 else if(r==3){operations.division(20);}
                 firstnum = String.valueOf(Operations.getFirstNumber());
@@ -393,8 +393,8 @@ public class QuizActivity extends AppCompatActivity {
 
             case 7:
                 r = random.nextInt(4);
-                if(r==0){operations.addition(500);}
-                else if(r==1){operations.subtraction(500);}
+                if(r==0){operations.addition(650);}
+                else if(r==1){operations.subtraction(650);}
                 else if(r==2){operations.multiplication(50);}
                 else if(r==3){operations.division(20);}
                 firstnum = String.valueOf(Operations.getFirstNumber());

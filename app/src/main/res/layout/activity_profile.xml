@@ -11,13 +11,15 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProfile"
         android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_height="0dp"
         android:layout_marginStart="106dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="31dp"
         android:layout_marginEnd="105dp"
+        android:layout_marginBottom="159dp"
         android:scaleType="centerCrop"
         android:src="@drawable/profile"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/country"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,7 +29,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="106dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="105dp"
         android:layout_marginBottom="107dp"
         android:background="@color/purple_700"
@@ -43,12 +45,11 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="171dp"
-        android:layout_marginTop="39dp"
-        android:layout_marginEnd="192dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+        android:layout_marginStart="117dp"
+        android:layout_marginBottom="409dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/editTextUsername"
+        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <EditText
         android:id="@+id/editTextUsername"
@@ -67,28 +68,32 @@
         android:id="@+id/flag"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="42dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="79dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginBottom="30dp"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/gpsbtn"
         app:layout_constraintEnd_toStartOf="@+id/country"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/progressBar"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsername"
         tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/country"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="127dp"
-        android:layout_marginEnd="105dp"
+        android:layout_marginEnd="123dp"
+        android:layout_marginBottom="369dp"
         android:text="TextView"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         android:textSize="20sp"
         android:typeface="normal"
         android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+        app:layout_constraintStart_toEndOf="@+id/flag"
+        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <ProgressBar
         android:id="@+id/progressBar3"
@@ -107,7 +112,9 @@
         android:layout_marginStart="106dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="88dp"
+        android:layout_marginBottom="50dp"
         android:text="Auto update Location"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSignupSign"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flag" />

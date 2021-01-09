@@ -94,19 +94,6 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:gravity="right"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -129,7 +116,7 @@
                 android:id="@+id/start"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_margin="5dp"
                 android:background="@color/darkerBlue"
                 android:fontFamily="sans-serif-black"
                 android:soundEffectsEnabled="false"
@@ -142,6 +129,7 @@
                 android:id="@+id/buy_wisdom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/darkestBlue"
                 android:fontFamily="sans-serif-black"
@@ -152,40 +140,31 @@
                 tools:layout_editor_absoluteX="218dp"
                 tools:layout_editor_absoluteY="273dp" />
 
-            <LinearLayout
+            <Button
+                android:id="@+id/results"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/darkerLime"
+                android:fontFamily="sans-serif-medium"
+                android:text="Leader Board"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
 
-            </LinearLayout>
-
-            <LinearLayout
+            <com.google.android.gms.ads.AdView
+                android:id="@+id/adView2"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:orientation="vertical">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <Button
-                        android:id="@+id/results"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        android:background="@color/darkerLime"
-                        android:fontFamily="sans-serif-medium"
-                        android:text="Leader Board"
-                        android:textAllCaps="false"
-                        android:textColor="@android:color/white"
-                        android:textSize="24sp" />
-
-
-                </LinearLayout>
-            </LinearLayout>
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="bottom"
+                android:layout_margin="10dp"
+                android:foregroundGravity="bottom"
+                app:adSize="BANNER"
+                app:adUnitId="ca-app-pub-8469263715026322/6508117738"
+                tools:ignore="MissingConstraints"></com.google.android.gms.ads.AdView>
 
         </LinearLayout>
 

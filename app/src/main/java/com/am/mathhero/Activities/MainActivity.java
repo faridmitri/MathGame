@@ -22,11 +22,8 @@ import android.widget.Toast;
 import com.am.mathhero.R;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
-import com.google.android.play.core.review.ReviewInfo;
-import com.google.android.play.core.review.ReviewManager;
-import com.google.android.play.core.review.ReviewManagerFactory;
-import com.google.android.play.core.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -34,11 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import java.io.File;
-import java.util.Date;
-
-import static java.lang.System.currentTimeMillis;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,13 +45,19 @@ public class MainActivity extends AppCompatActivity {
     static String userCountry,name,user;
     ProgressBar progressBar;
     private InterstitialAd mInterstitialAd;
-
+    private AdView mAdView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+        mAdView = findViewById(R.id.adView2);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
+
 
         mInterstitialAd = new InterstitialAd(this);
        // mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
@@ -77,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
         firebaseUser = auth.getCurrentUser();
         progressBar = findViewById(R.id.progressBar5);
         getUserInfo();
+
+
         start.setEnabled(false);
         buy_wisdom.setEnabled(false);
         buy_wisdom.setOnClickListener(new View.OnClickListener() {
@@ -147,10 +147,9 @@ public class MainActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.action_signout)
         {
-            auth.signOut();
-
-
+            auth.getInstance().signOut();
             startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            finish();
         }
 
         if (item.getItemId() == R.id.support)
@@ -192,7 +191,7 @@ public class MainActivity extends AppCompatActivity {
                 buy_wisdom.setEnabled(true);
                 user = snapshot.getKey();
                 name = snapshot.child("userName").getValue().toString();
-
+                setTitle("Welcome " + name);
 
             }
 
