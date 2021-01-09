@@ -2,18 +2,8 @@
 <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ic_luncher_background"
+    android:background="@drawable/backg"
     android:orientation="vertical">
-
-    <EditText
-        android:id="@+id/editTextLoginPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/editTextLoginEmail"
@@ -24,6 +14,16 @@
         android:ems="10"
         android:hint="Email"
         android:inputType="textEmailAddress" />
+
+    <EditText
+        android:id="@+id/editTextLoginPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="25dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword" />
 
     <Button
         android:id="@+id/buttonLoginSignin"
@@ -48,7 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="cursive"
         android:text="Forgot_password"
         android:textColor="@color/darkerRed"
         android:textSize="25sp" />
@@ -70,7 +70,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="cursive"
         android:text="OR"
         android:textColor="@color/darkerRed"
         android:textSize="25sp" />

@@ -89,6 +89,7 @@ public class GameOverActivity extends AppCompatActivity {
         score.setText("You score is: " + getIntent().getStringExtra("scor"));
         String fbscore = getIntent().getStringExtra("scor");
         long diamond = getIntent().getLongExtra("wisdom", 0);
+        long showlvl = getIntent().getLongExtra("showlevel",0);
 
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();

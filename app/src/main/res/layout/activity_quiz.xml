@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/backg"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context=".Activities.QuizActivity">
@@ -165,7 +166,6 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#F2F2F2"
         android:columnCount="3"
         android:rowCount="4">
 
@@ -277,6 +277,17 @@
             android:textColor="@color/black"
             android:textSize="30sp" />
 
+        <TextView
+            android:id="@+id/lvl"
+            android:layout_width="wrap_content"
+            android:layout_height="70dp"
+            android:layout_row="3"
+            android:layout_column="0"
+            android:layout_columnWeight="1"
+            android:fontFamily="cursive"
+            android:text="lvl"
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
         <Button
             android:id="@+id/btn0"
@@ -302,15 +313,24 @@
             android:textColor="@color/black"
             android:textSize="30sp" />
 
-
     </GridLayout>
 
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:src="@drawable/math"
-    />
+        android:orientation="horizontal">
 
+        <TextView
+            android:id="@+id/mathhero"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|center_vertical"
+            android:layout_weight="1"
+            android:fontFamily="cursive"
+            android:text="Math Hero"
+            android:textSize="50sp"
+            app:autoSizeTextType="uniform"/>
+    </LinearLayout>
 
 
 </LinearLayout>

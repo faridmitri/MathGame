@@ -11,6 +11,8 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -23,13 +25,12 @@ import java.util.Random;
 
 public class QuizActivity extends AppCompatActivity {
     Button btn0,btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btnDel,ok,stop;
-    TextView answer,time,chance,score,wisdom,question;
+    TextView answer,time,chance,score,wisdom,question,lvl,mathhero;
      String number = null;
 
 
     CountDownTimer countDownTimer;
     private static long TOTAL_TIME ;
-    Boolean timerContinue;
     Boolean chanceflag;
     //long timeLeft = TOTAL_TIME;
 
@@ -41,6 +42,7 @@ public class QuizActivity extends AppCompatActivity {
     int levelscore;
     int userlife = 3;
     int level =1;
+    long showlevel =1;
     int p = 0;
     int progresslevel;
     String op;
@@ -80,8 +82,18 @@ public class QuizActivity extends AppCompatActivity {
         chance = findViewById(R.id.lifenum);
         wisdom = findViewById(R.id.wisdom);
         question=findViewById(R.id.questid);
+        lvl = findViewById(R.id.lvl);
+        lvl.setText("Level: 1");
+        mathhero = findViewById(R.id.mathhero);
+        Animation animFadein = AnimationUtils.loadAnimation(this,R.anim.splash);
+        animFadein.setRepeatCount(Animation.INFINITE);
+        mathhero.startAnimation(animFadein);
+
+
+
         final MediaPlayer correctsound = MediaPlayer.create(this, R.raw.level_up);
         final MediaPlayer wrongsound = MediaPlayer.create(this, R.raw.fail);
+        final MediaPlayer levelup = MediaPlayer.create(this, R.raw.levelup);
         timeup = MediaPlayer.create(this, R.raw.timesup);
         progressBar = findViewById(R.id.progressBar1);
         progressBar.setMax(100);
@@ -131,7 +143,7 @@ public class QuizActivity extends AppCompatActivity {
                     userscore = userscore + levelscore;
                     correctsound.start();
                     score.setText(String.format("%d", userscore));
-                    if (p == 100){p = 0;}
+                    if (p == 100){p = 0;  showlevel +=1; lvl.setText("Level: "+showlevel);  levelup.start();}
                     p = p+progresslevel;
                         progressBar.setProgress(p);
 
@@ -279,7 +291,7 @@ public class QuizActivity extends AppCompatActivity {
             public void onTick(long millisUntilFinished) {
                 if (useranswer == realanswer){
                 question.setText(correctAnswer());}
-                else {question.setText("Hmmm it is wrong");}
+                else {question.setText("Wrong, Correct answer is:" + realanswer);}
             }
 
             public void onFinish() {
@@ -310,7 +322,7 @@ public class QuizActivity extends AppCompatActivity {
         if (userscore < 265){level = 7;TOTAL_TIME= 15000;levelscore =7;progresslevel=10;} else
         if (userscore < 345){level = 8;TOTAL_TIME= 15000;levelscore =8;progresslevel=10;} else
         if (userscore < 435){level = 9;TOTAL_TIME= 15000;levelscore =9;progresslevel=10;} else
-        {level = 10;TOTAL_TIME= 10000;levelscore =10;}
+        {level = 10;TOTAL_TIME= 10000;levelscore =10;progresslevel=10;}
 
 
         startTimer();
@@ -471,6 +483,7 @@ public void savedata(){
     editor.putInt("score", userscore);
     editor.putLong("wisdom", wisdoms);
     editor.putInt("level",level);
+    editor.putLong("showlevel",showlevel);
     editor.apply();
 }
 
@@ -485,6 +498,9 @@ public void retreive() {
           wisdoms = prefs.getLong("wisdom", 0); //0 is the default value.
           wisdom.setText("" + wisdoms);
           level = prefs.getInt("level", 0);
+          showlevel = prefs.getLong("showlevel",0);
+          lvl.setText("level: " + showlevel);
+
 
           userlife = 1;
           chance.setText(String.format("%d", userlife));
@@ -503,6 +519,7 @@ public void gameover(){
         intent.putExtra("scor","" +userscore);
         intent.putExtra("wisdom",wisdoms);
         intent.putExtra("chanceflag",chanceflag);
+        intent.putExtra("showlevel",showlevel);
         startActivity(intent);
         finish();
     } else  nexttimer();
