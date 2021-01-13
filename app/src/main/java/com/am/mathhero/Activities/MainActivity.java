@@ -2,6 +2,7 @@ package com.am.mathhero.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 
 import android.content.Context;
@@ -25,6 +26,10 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
     ProgressBar progressBar;
     private InterstitialAd mInterstitialAd,mInterstitialAd1;
     private AdView mAdView;
+    ConstraintLayout constraintLayout;;
+    GoogleSignInClient googleSignInClient;
 
 
     @Override
@@ -54,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
+        constraintLayout = findViewById(R.id.constraint);
         mAdView = findViewById(R.id.adView2);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
@@ -182,8 +189,12 @@ public class MainActivity extends AppCompatActivity {
         }
         if (item.getItemId() == R.id.action_signout)
         {
+           GoogleSignIn.getClient(this,new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).build()).signOut();
+
             auth.getInstance().signOut();
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+           // intent.putExtra("signout", "true");
+            startActivity(intent);
             finish();
         }
 
@@ -200,6 +211,10 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
             }
 
+            if (item.getItemId()== R.id.guide) {
+                startActivity(new Intent(MainActivity.this,RulesActivity.class));
+            }
+
 
 
         }
@@ -211,7 +226,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void getUserInfo() {
 
-        try {
         reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -233,14 +247,23 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
 
+
+                Snackbar snackbar = Snackbar.make(constraintLayout,"Database error, try re-login",Snackbar.LENGTH_INDEFINITE)
+                        .setAction("okey", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                auth.getInstance().signOut();
+                                startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                                finish();
+                            }
+                        })
+                        ;
+                snackbar.show();
+
+
             }
         });
-} catch (Exception e) {
-            Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
-            auth.getInstance().signOut();
-            startActivity(new Intent(MainActivity.this,LoginActivity.class));
-            finish();
-        }
+
 
     }
 

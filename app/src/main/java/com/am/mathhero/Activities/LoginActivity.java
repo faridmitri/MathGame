@@ -3,21 +3,12 @@ package com.am.mathhero.Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.net.Uri;
+
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
+
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.am.mathhero.R;
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.InterstitialAd;
+
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -48,17 +37,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hbb20.CCPCountry;
+
 import com.hbb20.CountryCodePicker;
 
-import java.util.List;
-import java.util.Locale;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 1001;
     GoogleSignInClient googleSignInClient;
+
 
     EditText mail;
     EditText password;
@@ -68,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
     String address;
-    Locale loc;
+
     CountryCodePicker ccp;
 
     @Override
@@ -89,6 +78,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
+        auth = FirebaseAuth.getInstance();
+
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         mail = findViewById(R.id.editTextLoginEmail);
         password = findViewById(R.id.editTextLoginPassword);
@@ -97,8 +89,8 @@ public class LoginActivity extends AppCompatActivity {
         signUp = findViewById(R.id.buttonSignUp);
         forgotPassword = findViewById(R.id.textViewLoginForgotPassword);
         progressBarSignin = findViewById(R.id.progressBarSignin);
-        auth = FirebaseAuth.getInstance();
-ccp=findViewById(R.id.ccp1);
+
+        ccp=findViewById(R.id.ccp1);
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,7 +129,7 @@ ccp=findViewById(R.id.ccp1);
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
                 address = ccp.getSelectedCountryName();
                 if (address == null) {
-                     address = "undetected";
+                    address = "undetected";
                 }
                 intent.putExtra("EXTRA_country", address);
                 startActivity(intent);
@@ -147,12 +139,14 @@ ccp=findViewById(R.id.ccp1);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View view) {
+
+                // Configure Google Client
+                configureGoogleClient();
                 // Launch Sign In
                 signInToGoogle();
             }
         });
-        // Configure Google Client
-        configureGoogleClient();
+
 
     }
 
@@ -177,6 +171,7 @@ ccp=findViewById(R.id.ccp1);
             }
         });
     }
+
 
     private void configureGoogleClient() {
         // Configure Google Sign In
@@ -209,6 +204,7 @@ ccp=findViewById(R.id.ccp1);
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Toast.makeText(LoginActivity.this, "Google Sign in Succeeded ",Toast.LENGTH_SHORT).show();
+
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
@@ -228,11 +224,13 @@ ccp=findViewById(R.id.ccp1);
                         if (task.isSuccessful()) {
 
                             // Sign in success, update UI with the signed-in user's information
-
                             exist();
-                         //   Log.d(TAG, "signInWithCredential:success: currentUser: " + user.getEmail());
-                            Toast.makeText(LoginActivity.this, "Google Sign in succeed",Toast.LENGTH_SHORT).show();
-                           // launchMainActivity(user);
+                            checkcountry();
+
+
+                            //   Log.d(TAG, "signInWithCredential:success: currentUser: " + user.getEmail());
+                            Toast.makeText(LoginActivity.this, "Google authentication succeed",Toast.LENGTH_SHORT).show();
+                            // launchMainActivity(user);
 
                         } else {
                             // If sign in fails, display a message to the user.
@@ -263,7 +261,7 @@ ccp=findViewById(R.id.ccp1);
 
                     if (address == null)
                     {rootRef.child("Users").child(auth.getUid()).child("country").setValue("undetected");}
-                  else{ rootRef.child("Users").child(auth.getUid()).child("country").setValue(address);}
+                    else{ rootRef.child("Users").child(auth.getUid()).child("country").setValue(address);}
                     rootRef.child("Users").child(auth.getUid()).child("diamons").setValue(1);
                     rootRef.child("Users").child(auth.getUid()).child("score").setValue(0);
                     if (user != null &&  !user.equals("null"))
@@ -271,14 +269,8 @@ ccp=findViewById(R.id.ccp1);
 
                     } else {
                         rootRef.child("Users").child(auth.getUid()).child("image").setValue("null");}
-                    checkcountry();
-                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
-                Intent intent = new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-                finish(); }
+
+                }
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
@@ -287,14 +279,22 @@ ccp=findViewById(R.id.ccp1);
     }
 
     public void checkcountry() {
+        address = ccp.getSelectedCountryName();
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries");
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild(address)) {
                     // run some code
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+
+                    finish();
                 } else {
                     rootRef.child(address).setValue(0);
+                    Intent intent = new Intent(LoginActivity.this,MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
 

@@ -133,12 +133,12 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
 
                         if (task.isSuccessful()) {
-                            reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
+                         reference.child("Users").child(auth.getUid()).child("userName").setValue(userName);
                            reference.child("Users").child(auth.getUid()).child("country").setValue(countryfirebase);
                           // reference.child("Users").child(auth.getUid()).child("countryScore").setValue(0);
                            reference.child("Users").child(auth.getUid()).child("diamons").setValue(1);
                            reference.child("Users").child(auth.getUid()).child("score").setValue(0);
-                            checkchild();
+
 
 
                             if (imageControl) {
@@ -172,10 +172,8 @@ public class SignUpActivity extends AppCompatActivity {
                             } else {
                                 reference.child("Users").child(auth.getUid()).child("image").setValue("null");
                             }
+                            checkchild();
 
-                            Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
                         } else {
                             Toast.makeText(SignUpActivity.this,
                                     "There is a problem! Please try again later.",
@@ -207,14 +205,21 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void checkchild() {
+
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries");
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild(countryfirebase)) {
                     // run some code
+                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
-                    reference.child("Countries").child(countryfirebase).setValue(0);
+                    rootRef.child(countryfirebase).setValue(0);
+                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
 
@@ -224,6 +229,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
 
     public String getCountryCode(String countryName) {
 
