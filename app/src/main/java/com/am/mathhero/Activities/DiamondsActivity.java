@@ -76,7 +76,7 @@ public class DiamondsActivity extends AppCompatActivity implements PurchasesUpda
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diamonds);
-
+        setTitle("Purshase Diamonnds");
         auth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();

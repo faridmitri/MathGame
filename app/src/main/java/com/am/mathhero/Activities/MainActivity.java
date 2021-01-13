@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.am.mathhero.R;
+import com.am.mathhero.Training.Training_Main;
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -35,7 +36,7 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
 
 
-    Button start,results,buy_wisdom;
+    Button start,results,buy_wisdom,train;
     TextView wisdom,hightScore;
     FirebaseAuth auth;
     FirebaseDatabase database;
@@ -44,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
     long diamons;
     static String userCountry,name,user;
     ProgressBar progressBar;
-    private InterstitialAd mInterstitialAd;
+    private InterstitialAd mInterstitialAd,mInterstitialAd1;
     private AdView mAdView;
 
 
@@ -64,11 +65,18 @@ public class MainActivity extends AppCompatActivity {
         mInterstitialAd.setAdUnitId("ca-app-pub-8469263715026322/1317679859");
         mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
+
+        mInterstitialAd1 = new InterstitialAd(this);
+        //mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd1.setAdUnitId("ca-app-pub-8469263715026322/9090801044");
+        mInterstitialAd1.loadAd(new AdRequest.Builder().build());
+
         start = findViewById(R.id.start);
         wisdom = findViewById(R.id.wisdom_coin);
         buy_wisdom = findViewById(R.id.buy_wisdom);
         hightScore = findViewById(R.id.hightscore);
         results = findViewById(R.id.results);
+        train = findViewById(R.id.train);
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         auth = FirebaseAuth.getInstance();
@@ -86,6 +94,33 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,DiamondsActivity.class);
                 intent.putExtra("diamond", diamons);
                 startActivity(intent);
+
+            }
+        });
+
+        train.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mInterstitialAd1.isLoaded()) {
+                    mInterstitialAd1.show();
+                } else {
+                    Intent i = new Intent(MainActivity.this, Training_Main.class);
+                    startActivity(i);
+                    mInterstitialAd1.loadAd(new AdRequest.Builder().build());
+                }
+
+                mInterstitialAd1.setAdListener(new AdListener() {
+                    @Override
+                    public void onAdClosed() {
+                        // Load the next interstitial.
+                        Intent i = new Intent(MainActivity.this, Training_Main.class);
+                        startActivity(i);
+                        mInterstitialAd1.loadAd(new AdRequest.Builder().build());
+                    }
+
+                });
+
+
 
             }
         });
@@ -176,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getUserInfo() {
 
-
+        try {
         reference.child("Users").child(firebaseUser.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -200,7 +235,12 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+} catch (Exception e) {
+            Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
+            auth.getInstance().signOut();
+            startActivity(new Intent(MainActivity.this,LoginActivity.class));
+            finish();
+        }
 
     }
 

@@ -6,6 +6,10 @@
         android:title="Profile" />
 
     <item
+        android:id="@+id/guide"
+        android:title="Game Rules" />
+
+    <item
         android:id="@+id/support"
         android:title="Support" />
 

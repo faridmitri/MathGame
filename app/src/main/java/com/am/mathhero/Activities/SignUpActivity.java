@@ -16,8 +16,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.am.mathhero.R;
-import com.blongho.country_data.Country;
-import com.blongho.country_data.World;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -34,6 +32,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.util.Locale;
 import java.util.UUID;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -44,8 +43,8 @@ public class SignUpActivity extends AppCompatActivity {
     Uri imageUri;
     boolean imageControl = false;
     TextView countrytxt;
-    Country country;
 
+    String countryCode = "";
     String countryfirebase;
 
     FirebaseAuth auth;
@@ -61,8 +60,8 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        setTitle("Sign Up");
 
-        World.init(getApplicationContext());
 
         mail = findViewById(R.id.editTextSignupMail);
         password = findViewById(R.id.editTextSignupPassword);
@@ -84,9 +83,15 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         String countryname = getIntent().getStringExtra("EXTRA_country");
-        final int flag = World.getFlagOf(countryname);
-        flagi.setImageResource(flag);
-        country = World.getCountryFrom(countryname);
+       // final int flag = World.getFlagOf(countryname);
+        //flagi.setImageResource(flag);
+        //country = World.getCountryFrom(countryname);
+        getCountryCode(countryname);
+        String path = "https://www.countryflags.io/"+countryCode+"/shiny/64.png";
+        Picasso.get().load(path).into(flagi);
+
+
+
         countryfirebase = countryname;
         countrytxt.setText(countryfirebase);
 
@@ -220,5 +225,22 @@ public class SignUpActivity extends AppCompatActivity {
         });
     }
 
+    public String getCountryCode(String countryName) {
 
+        // Get all country codes in a string array.
+        String[] isoCountryCodes = Locale.getISOCountries();
+
+        // Iterate through all country codes:
+        for (String code : isoCountryCodes) {
+            // Create a locale using each country code
+            Locale locale = new Locale("", code);
+            // Get country name for each code.
+            String name = locale.getDisplayCountry();
+            if (name.equals(countryName)) {
+                countryCode = code;
+                break;
+            }
+        }
+        return countryCode;
+    }
 }

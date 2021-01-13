@@ -15,9 +15,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.am.mathhero.Modal.Model;
+
 import com.am.mathhero.R;
-import com.blongho.country_data.World;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapterCountry.MyViewHolder> {
@@ -39,7 +39,7 @@ public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapter
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
 
-
+    String countryCode = "";
     Context context;
     ArrayList<String> models;
     int i = 0;
@@ -63,9 +63,15 @@ public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapter
         holder.country.setText("" +models.get(position));
 
       holder.country.setText(models.get(position));
-        World.init(context.getApplicationContext());
-        final int flag = World.getFlagOf(models.get(position));
-        holder.flagi.setImageResource(flag);
+      //  World.init(context.getApplicationContext());
+       // final int flag = World.getFlagOf(models.get(position));
+       // holder.flagi.setImageResource(flag);
+
+        getCountryCode(models.get(position));
+        String path = "https://www.countryflags.io/"+countryCode+"/shiny/64.png";
+        Picasso.get().load(path).into(holder.flagi);
+
+
      //   i += 1;
        // holder.pos.setText(""+i);
         i = getItemCount() - position;
@@ -122,4 +128,23 @@ public class RecyclerAdapterCountry extends RecyclerView.Adapter<RecyclerAdapter
 
         return r;
     }*/
+
+    public String getCountryCode(String countryName) {
+
+        // Get all country codes in a string array.
+        String[] isoCountryCodes = Locale.getISOCountries();
+
+        // Iterate through all country codes:
+        for (String code : isoCountryCodes) {
+            // Create a locale using each country code
+            Locale locale = new Locale("", code);
+            // Get country name for each code.
+            String name = locale.getDisplayCountry();
+            if (name.equals(countryName)) {
+                countryCode = code;
+                break;
+            }
+        }
+        return countryCode;
+    }
 }

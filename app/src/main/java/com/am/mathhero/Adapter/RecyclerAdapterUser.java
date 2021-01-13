@@ -18,31 +18,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.am.mathhero.Activities.MainActivity;
 import com.am.mathhero.Modal.Model;
 import com.am.mathhero.R;
-import com.blongho.country_data.World;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
+
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 
 public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUser.MyViewHolder> {
 
 
-    FirebaseDatabase database;
-    DatabaseReference reference;
-    FirebaseAuth auth;
-    FirebaseUser firebaseUser;
+//    FirebaseDatabase database;
+    //  DatabaseReference reference;
+    //FirebaseAuth auth;
+    //FirebaseUser firebaseUser;
 
-
+    String countryCode = "";
     Context context;
     ArrayList<Model> models;
-     int i = 0;
+    int i = 0;
     public static int r;
 
     public RecyclerAdapterUser(Context c, ArrayList<Model> p) {
@@ -63,22 +57,22 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
 
         holder.userName.setText(models.get(position).getuserName());
         String user = models.get(position).getuserName().trim();
-        holder.score.setText("" +models.get(position).getScore());
+        holder.score.setText("" + models.get(position).getScore());
         i = getItemCount() - position;
         holder.rank.setText("Rank: " + i);
         //holder.country.setText(models.get(position).getCountry());
-        if (models.get(position).getimage().equals("null"))
-        {
+        if (models.get(position).getimage().equals("null")) {
             holder.image.setImageResource(R.drawable.profile);
-        }
-        else
-        {
+        } else {
             Picasso.get().load(models.get(position).getimage()).into(holder.image);
         }
 
-        World.init(context.getApplicationContext());
-       final int flag = World.getFlagOf(models.get(position).getCountry());
-        holder.flagi.setImageResource(flag);
+      //  World.init(context.getApplicationContext());
+        //final int flag = World.getFlagOf(models.get(position).getCountry());
+        //holder.flagi.setImageResource(flag);
+        getCountryCode(models.get(position).getCountry());
+        String path = "https://www.countryflags.io/"+countryCode+"/shiny/64.png";
+        Picasso.get().load(path).into(holder.flagi);
 
 
 
@@ -125,10 +119,9 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
         return models.size();
     }
 
-    class MyViewHolder extends RecyclerView.ViewHolder
-    {
-        TextView userName,score,rank;
-        ImageView image,flagi;
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        TextView userName, score, rank;
+        ImageView image, flagi;
 
 
         // Button btn;
@@ -154,8 +147,27 @@ public class RecyclerAdapterUser extends RecyclerView.Adapter<RecyclerAdapterUse
             });
         }  */
     }
-   /* public static int getpos(){
 
-        return r;
-    }*/
+    /* public static int getpos(){
+
+         return r;
+     }*/
+    public String getCountryCode(String countryName) {
+
+        // Get all country codes in a string array.
+        String[] isoCountryCodes = Locale.getISOCountries();
+
+        // Iterate through all country codes:
+        for (String code : isoCountryCodes) {
+            // Create a locale using each country code
+            Locale locale = new Locale("", code);
+            // Get country name for each code.
+            String name = locale.getDisplayCountry();
+            if (name.equals(countryName)) {
+                countryCode = code;
+                break;
+            }
+        }
+        return countryCode;
+    }
 }

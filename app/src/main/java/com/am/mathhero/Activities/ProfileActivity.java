@@ -2,22 +2,12 @@ package com.am.mathhero.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
+
 import android.net.Uri;
 import android.os.Bundle;
-import android.telephony.TelephonyManager;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.am.mathhero.R;
-import com.blongho.country_data.World;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -41,10 +30,11 @@ import com.google.firebase.database.annotations.Nullable;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.hbb20.CountryCodePicker;
 import com.squareup.picasso.Picasso;
 
 
-import java.util.List;
+
 import java.util.Locale;
 import java.util.UUID;
 
@@ -59,21 +49,9 @@ public class ProfileActivity extends AppCompatActivity {
     private TextView countryfirebase;
     ProgressBar progressBar,progressBar3;
     String country;
+   CountryCodePicker ccp;
+    String countryCode = "";
 
-    LocationManager locationManager;
-    LocationListener locationListener;
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            }
-        }
-    }
 
 
     FirebaseDatabase database;
@@ -87,24 +65,24 @@ public class ProfileActivity extends AppCompatActivity {
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
 
-    String image,address;
+    String image;
     ImageView flagi;
 
-    Button gpsbtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        World.init(getApplicationContext());
+   //     World.init(getApplicationContext());
         imageViewCircleProfile = findViewById(R.id.imageProfile);
         buttonUpdate = findViewById(R.id.buttonSignupSign);
         editTextUserNameProfile = findViewById(R.id.editTextUsername);
-        countryfirebase = findViewById(R.id.country);
+        setTitle("Update Profile");
+
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         progressBar3 = findViewById(R.id.progressBar3);
-        gpsbtn = findViewById(R.id.gpsbtn);
         flagi = findViewById(R.id.flag);
 
 
@@ -114,15 +92,13 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseUser = auth.getCurrentUser();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = firebaseStorage.getReference();
+        countryfirebase = findViewById(R.id.country);
+
+        ccp = findViewById(R.id.ccp1);
 
         getUserInfo();
 
-        gpsbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkgps();
-            }
-        });
+
 
         imageViewCircleProfile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,6 +118,8 @@ public class ProfileActivity extends AppCompatActivity {
     public void updateProfile()
     {    progressBar.setVisibility(View.VISIBLE);
         String userName = editTextUserNameProfile.getText().toString();
+
+        countryfirebase.setText(ccp.getSelectedCountryName());
         country =  countryfirebase.getText().toString();
         reference.child("Users").child(firebaseUser.getUid()).child("userName").setValue(userName);
         reference.child("Users").child(firebaseUser.getUid()).child("country").setValue(country);
@@ -201,8 +179,14 @@ public class ProfileActivity extends AppCompatActivity {
 
                 editTextUserNameProfile.setText(name);
                 countryfirebase.setText(getCountry);
-                final int flag = World.getFlagOf(getCountry);
-                flagi.setImageResource(flag);
+             //   final int flag = World.getFlagOf(getCountry);
+             //   flagi.setImageResource(flag);
+
+                getCountryCode(getCountry);
+                String path = "https://www.countryflags.io/"+countryCode+"/shiny/64.png";
+                Picasso.get().load(path).into(flagi);
+
+
 
 
                 if (image.equals("null"))
@@ -246,61 +230,8 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-    public void checkgps(){
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.i("Location", location.toString());
 
 
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                try {
-                    List<Address> listAddresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                    if (listAddresses != null && listAddresses.size() > 0) {
-
-                        address = listAddresses.get(0).getCountryName();
-                        if (address == null) {
-                            TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-                            address = tm.getSimCountryIso();
-                            Locale loc = new Locale("",address);
-                            address = loc.getDisplayCountry(); }
-
-
-                        countryfirebase.setText(address);
-                        final int flag = World.getFlagOf(address);
-                        flagi.setImageResource(flag);
-
-                    }
-                } catch (Exception e) {
-                    Toast toast=Toast.makeText(getApplicationContext(),"GPS not found",Toast.LENGTH_SHORT);
-                }
-
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        }
-
-    }
     public void check() {
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries");
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -318,5 +249,25 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public String getCountryCode(String countryName) {
+
+        // Get all country codes in a string array.
+        String[] isoCountryCodes = Locale.getISOCountries();
+
+        // Iterate through all country codes:
+        for (String code : isoCountryCodes) {
+            // Create a locale using each country code
+            Locale locale = new Locale("", code);
+            // Get country name for each code.
+            String name = locale.getDisplayCountry();
+            if(name.equals(countryName))
+            {
+                countryCode = code;
+                break;
+            }
+        }
+        return countryCode;
     }
 }

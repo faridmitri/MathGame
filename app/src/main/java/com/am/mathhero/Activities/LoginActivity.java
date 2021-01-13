@@ -48,32 +48,17 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hbb20.CCPCountry;
+import com.hbb20.CountryCodePicker;
 
 import java.util.List;
 import java.util.Locale;
 
 public class LoginActivity extends AppCompatActivity {
-    LocationManager locationManager;
-    LocationListener locationListener;
-
 
     private static final String TAG = "LoginActivity";
     private static final int RC_SIGN_IN = 1001;
     GoogleSignInClient googleSignInClient;
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
-        if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            }
-        }
-    }
-
 
     EditText mail;
     EditText password;
@@ -83,8 +68,10 @@ public class LoginActivity extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
     String address;
+    Locale loc;
+    CountryCodePicker ccp;
 
-   @Override
+    @Override
     protected void onStart() {
         super.onStart();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -102,50 +89,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-
-        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
-        locationListener = new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                Log.i("Location", location.toString());
-
-
-                Geocoder geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
-                try {
-                    List<Address> listAddresses = geocoder.getFromLocation(location.getLatitude(),location.getLongitude(),1);
-                    if (listAddresses != null && listAddresses.size() > 0) {
-
-                        address = listAddresses.get(0).getCountryName();
-
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        };
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},1);
-        } else {
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-        }
-
         SignInButton signInButton = findViewById(R.id.sign_in_button);
         mail = findViewById(R.id.editTextLoginEmail);
         password = findViewById(R.id.editTextLoginPassword);
@@ -155,6 +98,7 @@ public class LoginActivity extends AppCompatActivity {
         forgotPassword = findViewById(R.id.textViewLoginForgotPassword);
         progressBarSignin = findViewById(R.id.progressBarSignin);
         auth = FirebaseAuth.getInstance();
+ccp=findViewById(R.id.ccp1);
 
         signIn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -191,11 +135,9 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(LoginActivity.this, SignUpActivity.class);
+                address = ccp.getSelectedCountryName();
                 if (address == null) {
-                    TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-                    address = tm.getSimCountryIso();
-                    Locale loc = new Locale("",address);
-                   address = loc.getDisplayCountry();
+                     address = "undetected";
                 }
                 intent.putExtra("EXTRA_country", address);
                 startActivity(intent);
@@ -313,13 +255,15 @@ public class LoginActivity extends AppCompatActivity {
                 if(!dataSnapshot.exists()) {
                     //create new user
                     rootRef.child("Users").child(auth.getUid()).child("userName").setValue(user.getDisplayName());
-                    if (address == null) {
-                        TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+                    address = ccp.getSelectedCountryName();
+   /*                     TelephonyManager tm = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
                         address = tm.getSimCountryIso();
-                        Locale loc = new Locale("",address);
-                        address = loc.getDisplayCountry();
-                    }
-                   rootRef.child("Users").child(auth.getUid()).child("country").setValue(address);
+                       loc = new Locale("",address);
+                    address = loc.getDisplayCountry();  */
+
+                    if (address == null)
+                    {rootRef.child("Users").child(auth.getUid()).child("country").setValue("undetected");}
+                  else{ rootRef.child("Users").child(auth.getUid()).child("country").setValue(address);}
                     rootRef.child("Users").child(auth.getUid()).child("diamons").setValue(1);
                     rootRef.child("Users").child(auth.getUid()).child("score").setValue(0);
                     if (user != null &&  !user.equals("null"))

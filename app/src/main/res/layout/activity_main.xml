@@ -120,7 +120,7 @@
                 android:background="@color/darkerBlue"
                 android:fontFamily="sans-serif-black"
                 android:soundEffectsEnabled="false"
-                android:text="Start"
+                android:text="Competition"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="30sp" />
@@ -133,7 +133,7 @@
                 android:layout_weight="1"
                 android:background="@color/darkestBlue"
                 android:fontFamily="sans-serif-black"
-                android:text="Buy Wisdom"
+                android:text="Buy Diamonds"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="24sp"
@@ -143,12 +143,25 @@
             <Button
                 android:id="@+id/results"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:layout_weight="1"
                 android:background="@color/darkerLime"
                 android:fontFamily="sans-serif-medium"
                 android:text="Leader Board"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
+
+            <Button
+                android:id="@+id/train"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:layout_weight="1"
+                android:background="@color/darkerLime"
+                android:fontFamily="sans-serif-medium"
+                android:text="Train and get rewards"
                 android:textAllCaps="false"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />

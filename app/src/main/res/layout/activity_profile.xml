@@ -11,111 +11,117 @@
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageProfile"
         android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="31dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="159dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="115dp"
         android:scaleType="centerCrop"
         android:src="@drawable/profile"
         android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/country"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Button
-        android:id="@+id/buttonSignupSign"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="105dp"
-        android:layout_marginBottom="107dp"
-        android:background="@color/purple_700"
-        android:text="Update"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gpsbtn" />
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="117dp"
-        android:layout_marginBottom="409dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/editTextUsername"
-        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
-
-    <EditText
-        android:id="@+id/editTextUsername"
-        android:layout_width="303dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="22dp"
-        android:ems="10"
-        android:hint="Username"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
-
-    <ImageView
-        android:id="@+id/flag"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:layout_marginStart="96dp"
-        android:layout_marginTop="79dp"
-        android:layout_marginEnd="34dp"
-        android:layout_marginBottom="30dp"
-        android:visibility="visible"
-        app:layout_constraintBottom_toTopOf="@+id/gpsbtn"
-        app:layout_constraintEnd_toStartOf="@+id/country"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextUsername"
-        tools:srcCompat="@tools:sample/avatars" />
-
-    <TextView
-        android:id="@+id/country"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="123dp"
-        android:layout_marginBottom="369dp"
-        android:text="TextView"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
-        android:textSize="20sp"
-        android:typeface="normal"
-        android:visibility="visible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/flag"
-        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
 
     <ProgressBar
         android:id="@+id/progressBar3"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_marginBottom="9dp"
         app:layout_constraintBottom_toBottomOf="@+id/imageProfile"
+        app:layout_constraintEnd_toEndOf="@+id/progressBar"
+        app:layout_constraintStart_toStartOf="@+id/progressBar" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="33dp"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintEnd_toEndOf="@+id/country"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsername" />
+
+    <ImageView
+        android:id="@+id/flag"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginStart="59dp"
+        android:layout_marginTop="81dp"
+        android:layout_marginEnd="26dp"
+        android:layout_marginBottom="76dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/textView2"
+        app:layout_constraintEnd_toStartOf="@+id/country"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextUsername"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <EditText
+        android:id="@+id/editTextUsername"
+        android:layout_width="303dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="54dp"
+        android:layout_marginTop="28dp"
+        android:layout_marginEnd="54dp"
+        android:ems="10"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageProfile" />
+
+    <Button
+        android:id="@+id/buttonSignupSign"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="38dp"
+        android:background="@color/purple_700"
+        android:text="Update"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/gpsbtn"
-        android:layout_width="wrap_content"
+    <com.hbb20.CountryCodePicker
+        android:id="@+id/ccp1"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="106dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="88dp"
-        android:layout_marginBottom="50dp"
-        android:text="Auto update Location"
+        android:layout_marginBottom="56dp"
+        app:ccp_autoDetectCountry="true"
+        app:ccp_showFullName="true"
+        app:ccp_showNameCode="false"
+        app:ccp_showPhoneCode="false"
         app:layout_constraintBottom_toTopOf="@+id/buttonSignupSign"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flag" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/country"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="186dp"
+        android:layout_marginBottom="22dp"
+        android:fontFamily="cursive"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+        android:textSize="20sp"
+        android:typeface="normal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="@+id/flag"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/flag" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="29dp"
+        android:fontFamily="cursive"
+        android:text="Change your country:"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/ccp1"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

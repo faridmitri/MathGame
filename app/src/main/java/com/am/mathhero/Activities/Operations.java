@@ -11,43 +11,43 @@ public class Operations {
     private static String operator;
     private Random random;
 
-    Operations(){
+    public Operations(){
         random = new Random();
     }
 
 
 
 
-    void addition (int number){
-        firstNumber = random.nextInt(number);
-        secondNumber = random.nextInt(number);
+    public void addition(int number,int range){
+        firstNumber = random.nextInt(number) + range;
+        secondNumber = random.nextInt(number) + range;
         operator = "+";
         result = firstNumber + secondNumber;
     }
 
-    void subtraction (int number) {
-        firstNumber = random.nextInt(number) + 1;
+    public void subtraction(int number,int range) {
+        firstNumber = random.nextInt(number) + range;
         secondNumber = random.nextInt(firstNumber);
-        operator = "-";
+        operator = " - ";
         result = firstNumber - secondNumber;
 
     }
 
-    void multiplication (int number){
-        firstNumber = random.nextInt(number) + 1;
-        secondNumber = random.nextInt(number ) + 1;
-        operator = "*";
+    public void multiplication(int number,int range){
+        firstNumber = random.nextInt(number) + range;
+        secondNumber = random.nextInt(number ) + range;
+        operator = " × ";
 
         result = firstNumber * secondNumber;
 
     }
 
-    void division (int number){
+    public void division(int number,int range){
         ArrayList<Integer> allDivisors = new ArrayList<>();
         int numberHelper;
         int i;
-        operator = "/";
-        firstNumber = random.nextInt(number) + 1;
+        operator = " / ";
+        firstNumber = random.nextInt(number) + range;
 
         for (i = 1; i <= firstNumber; i++) {
             if (firstNumber % i == 0) {
@@ -67,10 +67,10 @@ public class Operations {
     public static int getFirstNumber(){
         return firstNumber;
     }
-    static int getSecondNumber(){
+    public static int getSecondNumber(){
         return secondNumber;
     }
-    static int getResult(){
+    public static int getResult(){
         return result;
     }
 

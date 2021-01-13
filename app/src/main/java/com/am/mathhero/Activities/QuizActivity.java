@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -55,7 +56,7 @@ public class QuizActivity extends AppCompatActivity {
     String secnum;
     long wisdoms;
    MediaPlayer timeup;
-
+    boolean flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +110,9 @@ public class QuizActivity extends AppCompatActivity {
         } else {stop.setEnabled(true);}
 
         wisdom.setText(""+wisdoms);
-        retreive();
+        flag = getIntent().getBooleanExtra("flag",false);
+        if(flag){
+        retreive();}
 
 
         operations = new Operations();
@@ -131,6 +134,7 @@ public class QuizActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ok.setEnabled(false);
+                stop.setEnabled(false);
                 String text = answer.getText().toString();
                 try {
                     useranswer = Integer.valueOf(text);
@@ -286,12 +290,12 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public void nexttimer() {
-        countDownTimer=new CountDownTimer(1000, 1000) {
+        countDownTimer=new CountDownTimer(2000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 if (useranswer == realanswer){
                 question.setText(correctAnswer());}
-                else {question.setText("Wrong, Correct answer is:" + realanswer);}
+                else {question.setText("Wrong, Correct answer is: " + realanswer);answer.setText(null);}
             }
 
             public void onFinish() {
@@ -322,14 +326,14 @@ public class QuizActivity extends AppCompatActivity {
         if (userscore < 265){level = 7;TOTAL_TIME= 15000;levelscore =7;progresslevel=10;} else
         if (userscore < 345){level = 8;TOTAL_TIME= 15000;levelscore =8;progresslevel=10;} else
         if (userscore < 435){level = 9;TOTAL_TIME= 15000;levelscore =9;progresslevel=10;} else
-        {level = 10;TOTAL_TIME= 10000;levelscore =10;progresslevel=10;}
+        {level = 10;TOTAL_TIME= 15000;levelscore =10;progresslevel=10;}
 
 
         startTimer();
 
         switch (level) {
             case 1:
-                operations.addition(100);
+                operations.addition(100,0);
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
                 operator1 = String.valueOf(Operations.getOperator());
@@ -340,8 +344,8 @@ public class QuizActivity extends AppCompatActivity {
 
              case 2:
                  r = random.nextInt(2);
-                 if(r==0){operations.addition(100);}
-                 else if(r==1){operations.subtraction(100);}
+                 if(r==0){operations.addition(100,0);}
+                 else if(r==1){operations.subtraction(100,1);}
 
                  firstnum = String.valueOf(Operations.getFirstNumber());
                  secnum = String.valueOf(Operations.getSecondNumber());
@@ -352,9 +356,9 @@ public class QuizActivity extends AppCompatActivity {
 
             case 3:
                 r = random.nextInt(3);
-                if(r==0){operations.addition(300);}
-                else if(r==1){operations.subtraction(300);}
-                else if(r==2){operations.multiplication(20);}
+                if(r==0){operations.addition(300,0);}
+                else if(r==1){operations.subtraction(300,1);}
+                else if(r==2){operations.multiplication(20,1);}
 
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
@@ -365,9 +369,9 @@ public class QuizActivity extends AppCompatActivity {
 
             case 4:
                 r = random.nextInt(3);
-                if(r==0){operations.addition(400);}
-                else if(r==1){operations.subtraction(400);}
-                else if(r==2){operations.multiplication(30);}
+                if(r==0){operations.addition(450,100);}
+                else if(r==1){operations.subtraction(450,100);}
+                else if(r==2){operations.multiplication(50,1);}
 
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
@@ -378,10 +382,10 @@ public class QuizActivity extends AppCompatActivity {
 
              case 5:
                  r = random.nextInt(4);
-                 if(r==0){operations.addition(500);}
-                 else if(r==1){operations.subtraction(500);}
-                 else if(r==2){operations.multiplication(40);}
-                 else if(r==3){operations.division(20);}
+                 if(r==0){operations.addition(550,100);}
+                 else if(r==1){operations.subtraction(550,100);}
+                 else if(r==2){operations.multiplication(50,1);}
+                 else if(r==3){operations.division(20,1);}
 
                   firstnum = String.valueOf(Operations.getFirstNumber());
                  secnum = String.valueOf(Operations.getSecondNumber());
@@ -392,10 +396,10 @@ public class QuizActivity extends AppCompatActivity {
 
             case 6:
                 r = random.nextInt(4);
-                if(r==0){operations.addition(600);}
-                else if(r==1){operations.subtraction(600);}
-                else if(r==2){operations.multiplication(40);}
-                else if(r==3){operations.division(20);}
+                if(r==0){operations.addition(650,200);}
+                else if(r==1){operations.subtraction(650,200);}
+                else if(r==2){operations.multiplication(55,10);}
+                else if(r==3){operations.division(20,1);}
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
                 operator1 = String.valueOf(Operations.getOperator());
@@ -405,10 +409,10 @@ public class QuizActivity extends AppCompatActivity {
 
             case 7:
                 r = random.nextInt(4);
-                if(r==0){operations.addition(650);}
-                else if(r==1){operations.subtraction(650);}
-                else if(r==2){operations.multiplication(50);}
-                else if(r==3){operations.division(20);}
+                if(r==0){operations.addition(750,200);}
+                else if(r==1){operations.subtraction(750,200);}
+                else if(r==2){operations.multiplication(55,10);}
+                else if(r==3){operations.division(30,1);}
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
                 operator1 = String.valueOf(Operations.getOperator());
@@ -418,10 +422,10 @@ public class QuizActivity extends AppCompatActivity {
 
             case 8:
                 r = random.nextInt(4);
-                if(r==0){operations.addition(800);}
-                else if(r==1){operations.subtraction(800);}
-                else if(r==2){operations.multiplication(50);}
-                else if(r==3){operations.division(50);}
+                if(r==0){operations.addition(850,250);}
+                else if(r==1){operations.subtraction(850,250);}
+                else if(r==2){operations.multiplication(60,10);}
+                else if(r==3){operations.division(50,1);}
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
                 operator1 = String.valueOf(Operations.getOperator());
@@ -431,10 +435,10 @@ public class QuizActivity extends AppCompatActivity {
 
             case 9:
                 r = random.nextInt(4);
-                if(r==0){operations.addition(1000);}
-                else if(r==1){operations.subtraction(1000);}
-                else if(r==2){operations.multiplication(600);}
-                else if(r==3){operations.division(100);}
+                if(r==0){operations.addition(1000,400);}
+                else if(r==1){operations.subtraction(60,400);}
+                else if(r==2){operations.multiplication(100,10);}
+                else if(r==3){operations.division(100,10);}
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
                 operator1 = String.valueOf(Operations.getOperator());
@@ -444,10 +448,10 @@ public class QuizActivity extends AppCompatActivity {
 
             case 10:
                 r = random.nextInt(4);
-                if(r==0){operations.addition(1000);}
-                else if(r==1){operations.subtraction(1000);}
-                else if(r==2){operations.multiplication(1000);}
-                else if(r==3){operations.division(1000);}
+                if(r==0){operations.addition(2000,700);}
+                else if(r==1){operations.subtraction(2000,100);}
+                else if(r==2){operations.multiplication(100,10);}
+                else if(r==3){operations.division(150,10);}
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
                 operator1 = String.valueOf(Operations.getOperator());
@@ -460,7 +464,7 @@ public class QuizActivity extends AppCompatActivity {
     }
 
     public String correctAnswer(){
-        Random random = new Random();
+        Random random = new Random(1);
         String[] correct = {"You found a really \n good way to do it!", "You seem to really \n understand this!", "I can tell you’ve \n been practicing!",
                 "Good thinking!","Great answer!","Awesome!","You are \n unique!", "Fantastic!","You're a \n problem solver!", "You learn \n quickly!","Brilliant!",
                 "You're winner!","So proud of you!","Excellent!"};
@@ -489,7 +493,7 @@ public void savedata(){
 
 public void retreive() {
 
-    boolean flag = getIntent().getBooleanExtra("flag",false);
+
       if (flag) {
 
           SharedPreferences prefs = getSharedPreferences("saved", MODE_PRIVATE);
@@ -531,4 +535,16 @@ public void savefirebase() {
     FirebaseDatabase.getInstance().getReference().child("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid())
             .child("diamons").setValue(wisdoms);
 }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        pauseTimer();
+        startActivity(intent);
+        finish();
+
+    }
 }

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
+import android.service.quicksettings.Tile;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
@@ -24,6 +25,7 @@ public class ForgetActivity extends AppCompatActivity {
     private ProgressBar progressBar;
     ConstraintLayout constraintLayout;
 
+
     FirebaseAuth auth;
 
     @Override
@@ -31,6 +33,7 @@ public class ForgetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forget);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        setTitle("Forget Password");
 
         editTextForget = findViewById(R.id.editTextForget);
         buttonForget = findViewById(R.id.buttonForget);

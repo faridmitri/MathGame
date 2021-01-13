@@ -3,5 +3,36 @@
     <string name="account">Account</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="score"> Players score is used to define your rank against others players worldwide and players from your country,
+   the rank is based on your highest score. Country score is defined by addition of all players scores (every play score not only the hight score)
+        in the same country and it will be used to define country ranks  </string>
+    <string name="points">To earn points players have to answer math operations correct on Time.\n
+        - (For Level 1: 1 pt, Level 2: 2 pts .... Level 10 and above: 10 pts) for each correct answers
+    </string>
+
+    <string name="levels">
+        - Level 1: operations for 2 digits numbers, time 20 seconds.\n
+        - Level 2: operations and substractions for 2 digits numbers, time 20 seconnds \n\n
+        - Level 3: operations and substractions for 3 digit numbers(till number 300), Multiplications for 2 digits (till number 20), time 20 seconds. \n\n
+        - Level 4: operations and substractions for 3 digit numbers(till number 450), Multiplications for 2 digits(till nnumber 50), time 20 seconds. \n\n
+        - Level 5: operations and substractions for 3 digit numbers(till number 550), Multiplications for 2 digits(till nnumber 50),Division till number 20, time 15 seconds. \n\n
+        - Level 6: operations and substractions for 3 digit numbers(till number 650), Multiplications for 2 digits(till nnumber 50),Division till number 20, time 15 seconds. \n\n
+        - Level 7: operations and substractions for 3 digit numbers(till number 750), Multiplications for 2 digits(till nnumber 55),Division till number 30, time 15 seconds. \n\n
+        - Level 8: operations and substractions for 3 digit numbers(till number 850), Multiplications for 2 digits(till nnumber 55),Division till number 50, time 15 seconds. \n\n
+        - Level 9: operations and substractions for 4 digit numbers(till number 1000), Multiplications for 2 digits(till nnumber 60),Division till number 100, time 15 seconds. \n\n
+        - Level 10 and above: operations and substractions for 4 digit numbers(till number 2000), Multiplications for 2 digits(till nnumber 100),Division till number 150, time 15 seconds. \n\n
+    </string>
+
+    <string name="diamonds">Diamonds are used to stop the timer, you can bought them from store. \n
+    player got one free diamonnd on signup, and each month hero will get one free diamond</string>
+
+    <string name="rewards"> - Score > 200: +5 on your hight score \n
+                            - Score > 400: +10 on your hight score \n
+                            - Score > 500: 1 free diamond\n
+                            - Score > 600: 5 free diamonds
+    </string>
+
+    <string name="facebook_app_id">773517476582875</string>
+    <string name="fb_login_protocol_scheme">fb773517476582875</string>
 
 </resources>

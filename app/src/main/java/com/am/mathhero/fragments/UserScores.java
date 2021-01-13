@@ -73,7 +73,7 @@ int i,pos;
 
 
 
-        reference = FirebaseDatabase.getInstance().getReference("Users").orderByChild("score");
+        reference = FirebaseDatabase.getInstance().getReference("Users").orderByChild("score").startAt(1);
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

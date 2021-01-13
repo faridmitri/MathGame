@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.am.mathhero">
 
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="com.android.vending.BILLING" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:allowBackup="true"
@@ -15,6 +13,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MathHero">
+        <activity android:name=".Training.Training_GameOver"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/Theme.MyMathHero" ></activity>
+        <activity android:name=".Training.Training_Game" />
+        <activity
+            android:name=".Training.Training_Main"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/Theme.MyMathHero" />
+        <activity
+            android:name=".Activities.RulesActivity"
+            android:parentActivityName=".Activities.MainActivity"
+            android:theme="@style/Theme.MyMathHero" />
         <activity
             android:name=".Activities.DiamondsActivity"
             android:parentActivityName=".Activities.MainActivity"
@@ -31,11 +41,10 @@
             android:name=".Activities.ProfileActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/Theme.MyMathHero" />
-
-        <activity android:name=".Activities.GameOverActivity"
+        <activity
+            android:name=".Activities.GameOverActivity"
             android:parentActivityName=".Activities.MainActivity"
             android:theme="@style/Theme.MyMathHero" />
-
         <activity android:name=".Activities.QuizActivity" />
         <activity
             android:name=".Activities.SignUpActivity"
@@ -57,8 +66,11 @@
         <meta-data
             android:name="com.google.android.gms.ads.APPLICATION_ID"
             android:value="ca-app-pub-8469263715026322~8580007069" />
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
 
-
+        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
     </application>
 
 </manifest>
