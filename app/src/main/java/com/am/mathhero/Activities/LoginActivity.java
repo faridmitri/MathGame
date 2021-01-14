@@ -225,8 +225,6 @@ public class LoginActivity extends AppCompatActivity {
 
                             // Sign in success, update UI with the signed-in user's information
                             exist();
-                            checkcountry();
-
 
                             //   Log.d(TAG, "signInWithCredential:success: currentUser: " + user.getEmail());
                             Toast.makeText(LoginActivity.this, "Google authentication succeed",Toast.LENGTH_SHORT).show();
@@ -269,8 +267,8 @@ public class LoginActivity extends AppCompatActivity {
 
                     } else {
                         rootRef.child("Users").child(auth.getUid()).child("image").setValue("null");}
-
-                }
+                    checkcountry();
+                } else {checkcountry();}
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {}
@@ -280,18 +278,18 @@ public class LoginActivity extends AppCompatActivity {
 
     public void checkcountry() {
         address = ccp.getSelectedCountryName();
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries");
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries/" + address);
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.hasChild(address)) {
+                if (snapshot.exists()) {
                     // run some code
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
 
                     finish();
                 } else {
-                    rootRef.child(address).setValue(0);
+                    FirebaseDatabase.getInstance().getReference("Countries").child(address).setValue(0);
                     Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();

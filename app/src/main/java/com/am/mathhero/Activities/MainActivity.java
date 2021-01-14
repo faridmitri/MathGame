@@ -182,6 +182,9 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()== R.id.guide) {
+            startActivity(new Intent(MainActivity.this,RulesActivity.class));
+        }
 
         if (item.getItemId() == R.id.action_profile)
         {
@@ -210,12 +213,6 @@ public class MainActivity extends AppCompatActivity {
             } catch (android.content.ActivityNotFoundException ex) {
                 Toast.makeText(MainActivity.this, "There are no email clients installed.", Toast.LENGTH_SHORT).show();
             }
-
-            if (item.getItemId()== R.id.guide) {
-                startActivity(new Intent(MainActivity.this,RulesActivity.class));
-            }
-
-
 
         }
 

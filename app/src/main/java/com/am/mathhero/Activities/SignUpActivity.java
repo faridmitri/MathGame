@@ -206,18 +206,19 @@ public class SignUpActivity extends AppCompatActivity {
 
     public void checkchild() {
 
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries");
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("Countries/" + countryfirebase);
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                if (snapshot.hasChild(countryfirebase)) {
+                if (snapshot.exists()) {
                     // run some code
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
                     startActivity(intent);
+
                     finish();
                 } else {
-                    rootRef.child(countryfirebase).setValue(0);
-                    Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
+                    FirebaseDatabase.getInstance().getReference("Countries").child(countryfirebase).setValue(0);
+                    Intent intent = new Intent(SignUpActivity.this,MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
@@ -229,6 +230,7 @@ public class SignUpActivity extends AppCompatActivity {
             }
         });
     }
+
 
 
     public String getCountryCode(String countryName) {
