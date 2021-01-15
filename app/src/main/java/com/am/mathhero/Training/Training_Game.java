@@ -16,9 +16,15 @@ import android.widget.Button;
 import android.widget.TextView;
 
 
+import com.am.mathhero.Activities.LeaderBoardA;
+import com.am.mathhero.Activities.MainActivity;
 import com.am.mathhero.Activities.Operations;
 
 import com.am.mathhero.R;
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 
 import java.util.Random;
@@ -29,11 +35,11 @@ public class Training_Game extends AppCompatActivity {
     TextView answer,time,chance,score,question,lvl,mathhero;
     String number = null;
 
-
+    private static FirebaseAnalytics firebaseAnalytics;
     CountDownTimer countDownTimer;
     private static long TOTAL_TIME ;
 
-
+    private InterstitialAd mInterstitialAd;
     int useranswer;
     int realanswer;
     int userscore;
@@ -55,6 +61,12 @@ public class Training_Game extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_training__game);
+
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        mInterstitialAd = new InterstitialAd(this);
+        // mInterstitialAd.setAdUnitId("ca-app-pub-3940256099942544/1033173712");
+        mInterstitialAd.setAdUnitId("ca-app-pub-8469263715026322/1870431354");
+        mInterstitialAd.loadAd(new AdRequest.Builder().build());
 
         btn0 = findViewById(R.id.btn0);
         btn1 = findViewById(R.id.btn1);
@@ -218,6 +230,18 @@ public class Training_Game extends AppCompatActivity {
 
             }
         });
+
+        Bundle bundle = new Bundle();
+        bundle.putString(FirebaseAnalytics.Param.CHARACTER, "training");
+        
+        long levelsf = 0;
+        if (level == "easy") {levelsf = 1;}
+        if (level == "medium") {levelsf = 2;}
+        if (level == "hard") {levelsf = 3;}
+        
+        bundle.putLong(FirebaseAnalytics.Param.LEVEL, levelsf);
+        firebaseAnalytics.logEvent(FirebaseAnalytics.Event.LEVEL_START, bundle);
+
     }
 
     public void numberClick(String view)
@@ -301,7 +325,7 @@ public class Training_Game extends AppCompatActivity {
                 r = random.nextInt(3);
                 if(r==0){operations.addition(500,100);}
                 else if(r==1){operations.subtraction(500,100);}
-                else if(r==2){operations.multiplication(20,1);}
+                else if(r==2){operations.multiplication(30,1);}
 
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
@@ -320,7 +344,7 @@ public class Training_Game extends AppCompatActivity {
                 if(r==0){operations.addition(1000,500);}
                 else if(r==1){operations.subtraction(1000,500);}
                 else if(r==2){operations.multiplication(50,1);}
-                else if(r==3){operations.division(50,1);}
+                else if(r==3){operations.division(200,1);}
 
                 firstnum = String.valueOf(Operations.getFirstNumber());
                 secnum = String.valueOf(Operations.getSecondNumber());
@@ -361,11 +385,31 @@ public class Training_Game extends AppCompatActivity {
         if (userlife == 0)
         {
             savedata();
-            Intent intent = new Intent(Training_Game.this, Training_GameOver.class);
-            intent.putExtra("scor","" +userscore);
-            startActivity(intent);
-            finish();
+            if (mInterstitialAd.isLoaded()) {
+                mInterstitialAd.show();
+            } else {
+                Intent i = new Intent(Training_Game.this, Training_GameOver.class);
+                i.putExtra("scor","" +userscore);
+                startActivity(i);
+                mInterstitialAd.loadAd(new AdRequest.Builder().build());
+            }
+
+            mInterstitialAd.setAdListener(new AdListener() {
+                @Override
+                public void onAdClosed() {
+                    // Load the next interstitial.
+                    Intent i = new Intent(Training_Game.this, Training_GameOver.class);
+                    i.putExtra("scor","" +userscore);
+                    startActivity(i);
+                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
+                }
+
+            });
+
+
         } else  nexttimer();
+
+
     }
 
 

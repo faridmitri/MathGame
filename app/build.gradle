@@ -15,8 +15,8 @@ android {
         applicationId "com.am.mathhero"
         minSdkVersion 21
         targetSdkVersion 30
-        versionCode 48
-        versionName "2.8"
+        versionCode 55
+        versionName "3.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

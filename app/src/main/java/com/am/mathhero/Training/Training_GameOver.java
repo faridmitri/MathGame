@@ -55,7 +55,7 @@ public class Training_GameOver extends AppCompatActivity {
     private RewardedAd rewardedAd;
 
     TextView score;
-    Button plusfive,plusten,onediamond,fivediamonds,retry;
+    Button plusfive,plusten,onediamond,fivediamonds;
     FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference reference;
@@ -104,7 +104,7 @@ public class Training_GameOver extends AppCompatActivity {
         onediamond = findViewById(R.id.onediamond);
         fivediamonds = findViewById(R.id.fivediamonds);
         constraintLayout = findViewById(R.id.constraint);
-        retry = findViewById(R.id.retry);
+
 
         score = findViewById(R.id.textViewScore);
         score.setText("You score is: " + getIntent().getStringExtra("scor"));
@@ -113,18 +113,13 @@ public class Training_GameOver extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
 
-        retry.setVisibility(View.GONE);
+
         plusten.setEnabled(false);
         plusfive.setEnabled(false);
         onediamond.setEnabled(false);
         fivediamonds.setEnabled(false);
 
-        long scor = Long.parseLong(getIntent().getStringExtra("scor"));
-        if (scor <= 200){ retry.setVisibility(View.VISIBLE);}
-        if (scor > 200 && scor < 400){plusfive.setEnabled(true);}
-        if (scor > 400 && scor < 500){plusten.setEnabled(true);}
-        if (scor > 500 && scor < 600){onediamond.setEnabled(true);}
-        if (scor > 600){fivediamonds.setEnabled(true);}
+
 
 
         reviewManager = ReviewManagerFactory.create(this);
@@ -134,6 +129,13 @@ public class Training_GameOver extends AppCompatActivity {
         if (installTimeInMilliseconds + (86400000 * 3) < l) {
             showRateApp();
         }
+
+        long scor = Long.parseLong(getIntent().getStringExtra("scor"));
+
+        if (scor > 60 && scor < 120){plusfive.setEnabled(true);}
+        else if (scor > 120 && scor < 460){plusten.setEnabled(true);}
+        else if (scor > 460 && scor < 600){onediamond.setEnabled(true);}
+        else if (scor > 600){fivediamonds.setEnabled(true);}
 
 
         plusfive.setOnClickListener(new View.OnClickListener() {
@@ -169,31 +171,7 @@ public class Training_GameOver extends AppCompatActivity {
             }
         });
 
-        retry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mInterstitialAd.isLoaded()) {
-                    mInterstitialAd.show();
-                } else {
-                    Intent i = new Intent(Training_GameOver.this, MainActivity.class);
-                    startActivity(i);
-                    mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                }
 
-                mInterstitialAd.setAdListener(new AdListener() {
-                    @Override
-                    public void onAdClosed() {
-                        // Load the next interstitial.
-                        Intent i = new Intent(Training_GameOver.this, MainActivity.class);
-                        startActivity(i);
-                        mInterstitialAd.loadAd(new AdRequest.Builder().build());
-                    }
-
-                });
-
-
-            }
-        });
 }
 
 
@@ -212,6 +190,9 @@ public class Training_GameOver extends AppCompatActivity {
                 public void onRewardedAdClosed() {
                     // Ad closed.
                     loadad();
+                    Intent intent = new Intent(Training_GameOver.this, MainActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
 
                 @Override

@@ -26,9 +26,9 @@
     <string name="diamonds">Diamonds are used to stop the timer, you can bought them from store. \n
     player got one free diamonnd on signup, and each month hero will get one free diamond</string>
 
-    <string name="rewards"> - Score > 200: +5 on your hight score \n
-                            - Score > 400: +10 on your hight score \n
-                            - Score > 500: 1 free diamond\n
+    <string name="rewards"> - Score > 60: +5 on your hight score \n
+                            - Score > 120: +10 on your hight score \n
+                            - Score > 460: 1 free diamond\n
                             - Score > 600: 5 free diamonds
     </string>
 

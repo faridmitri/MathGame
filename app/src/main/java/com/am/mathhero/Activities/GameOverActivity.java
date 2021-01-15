@@ -63,6 +63,7 @@ public class GameOverActivity extends AppCompatActivity {
     long setScore;
     long installTimeInMilliseconds; // install time is conveniently provided in milliseconds
     private ReviewManager reviewManager;
+    private ReviewInfo reviewInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,10 +102,23 @@ public class GameOverActivity extends AppCompatActivity {
         reviewManager = ReviewManagerFactory.create(this);
         getInstallDate();
 
+
+
         long l =currentTimeMillis();
         if (  installTimeInMilliseconds + (86400000 * 3) < l)
         {
-            showRateApp();
+            Task<ReviewInfo> request = reviewManager.requestReviewFlow();
+            request.addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    reviewInfo = task.getResult();
+                    Task<Void> flow = reviewManager.launchReviewFlow(GameOverActivity.this, reviewInfo);
+                    flow.addOnCompleteListener(taskdone -> {
+                        // This is the next follow of your app
+                    });
+                }
+            });
+
+
         }
 
 
@@ -240,27 +254,6 @@ public RewardedAd loadad(){
     rewardedAd.loadAd(new AdRequest.Builder().build(), adLoadCallback);
     return rewardedAd;
 }
-
-    public void showRateApp() {
-        Task<ReviewInfo> request = reviewManager.requestReviewFlow();
-        request.addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                // We can get the ReviewInfo object
-                ReviewInfo reviewInfo = task.getResult();
-
-                Task<Void> flow = reviewManager.launchReviewFlow(this, reviewInfo);
-                flow.addOnCompleteListener(task1 -> {
-                    // The flow has finished. The API does not indicate whether the user
-                    // reviewed or not, or even whether the review dialog was shown. Thus, no
-                    // matter the result, we continue our app flow.
-                });
-            } else {
-                // There was some problem, continue regardless of the result.
-                // show native rate app dialog on error
-                //   showRateAppFallbackDialog();
-            }
-        });
-    }
 
 
     private String getInstallDate() {
