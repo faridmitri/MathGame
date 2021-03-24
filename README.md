@@ -8,5 +8,6 @@ A math game where players have to answer on time for math operations, The Leader
 - Recycler View.<br />
 - Fragments.<br />
 - In App Purshase.<br />
+- ADMob Integration.
 - Google play URL: https://play.google.com/store/apps/details?id=com.am.mathhero
 
